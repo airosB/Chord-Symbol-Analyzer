@@ -1,0 +1,5754 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja-JP" lang="ja-JP">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-style-type" content="text/css" />
+<meta http-equiv="content-script-type" content="text/javascript" />
+<link rel="shortcut icon" href="favicon.ico">
+
+<style type="text/css"><!-- /*フォームのスタイル*/
+	body {
+		background: #ffffff;
+		font-family: sans-serif;
+	}
+
+	#innerWrapper {
+		padding: 1em;
+		background: #F2EEE9;
+	}
+
+	/*鍵盤以外のフォームっぽい部品ぜんぶ*/
+	div#options_form {
+		margin: 1em 0;
+		float: left;
+		position: relative;
+		clear: both;
+	}
+
+	/*オプションリスト*/
+ 	#analyse_options {
+		list-style-type: none;
+		padding-left: 0;
+		margin-top: 2em;
+
+		min-width: 700px;
+		white-space: nowrap;
+		word-break: keep-all;
+		word-wrap: normal;
+	}
+
+	/*チェック/アンチェックされたcheckbox, radioのスタイル*/
+	#analyse_options input:checked + label {
+		color: #000000;
+		font-weight: bold;
+	}
+	#analyse_options input:not(:checked) + label {
+		color: #37A0A8
+	}
+
+	/*インターバルの言語オプション*/
+	li#int_lang_options{
+		vertical-align: bottom;
+		padding-left: 6px;
+	}
+
+	input.ilng {
+		position: relative;
+	}
+	label.ilng {
+		margin-right: 5px;
+	}
+
+	#ilng_arrow1,#ilng_arrow2,#ilng_arrow3 {
+		display: inline-block;
+	}
+	#ilng_arrow1 {
+		margin-right: -6pt;
+		color: #c0c0c0;
+	}
+	#ilng_arrow2 {
+		margin-right: -6pt;
+		color: #808080;
+	}
+	#ilng_arrow3 {
+		color: #000000;
+	}
+
+	/*FSB*/
+	#scale_policies {
+		clear: both;
+		margin-top: 0;
+		margin-bottom:1em;
+		/*スマホ用に改行禁止数種記述*/
+		white-space: nowrap;
+		word-break: keep-all;
+		word-wrap: normal;
+	}
+
+	#scale_policies label + input[type="radio"][name="fsb"] {
+		margin-left: 4ex;
+	}
+
+	/*選択済みradio*/
+	#scale_policies label.fsb.selected {
+		font-size: larger;
+		font-weight: bold;
+		border-radius: 9px;
+		padding: 7px;
+		background: #22b0e5;
+
+		border: 2px solid #f8f8f8;
+		margin-right: 5px;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27);
+		-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27);
+		-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27);
+	}
+
+	@font-face {
+		font-family: 'BA-90';
+		src: url('./BA90.ttf') format('truetype');
+	}
+
+	#release_keys {
+		font-family: 'BA-90';
+
+		color: #000000;
+		text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.10);
+		font-size: 150px;
+		line-height: 70%;
+		cursor: pointer;
+		position: relative;
+		top: 50px;
+		left: 30px;
+	}
+
+
+	/*凡例*/
+	#figure_legend {
+		float: right;
+		position: relative;
+		left: 2em;
+
+		line-height: 5ex;
+		font-size: smaller;
+		z-index: 1; /*影が他のコンテンツや背景に隠れるのを防ぐ*/
+		overflow: visible;
+	}
+
+	p.legend_lines {
+		margin: 0;
+	}
+
+	span.legend {
+		border-radius: 5px;
+		padding: 5px 10px;
+		position:relative;
+		width:90%;
+	}
+
+	span.legend:before, span.legend:after {
+		content: "";
+		position: absolute;
+		z-index: -1;
+		bottom: 15px;
+		left: 12px;
+		width: 70%;
+		height: 80%;
+
+		-webkit-box-shadow: 0 15px 5px rgba(0, 0, 0, 0.7);
+		-moz-box-shadow: 0 15px 5px rgba(0, 0, 0, 0.7);
+		box-shadow: 0 15px 5px rgba(0, 0, 0, 0.7);
+		-webkit-transform: rotate(4deg);
+		-moz-transform: rotate(4deg);
+		-o-transform: rotate(4deg);
+		transform: rotate(4deg);
+	}
+
+	span.legend:after {
+		right: 10px;
+		left: auto;
+		-webkit-transform: rotate(4deg);
+		-moz-transform: rotate(4deg);
+		-o-transform: rotate(4deg);
+		transform: rotate(4deg);
+	}
+
+	span.legend.nodoubt,
+	span.legend.nodoubt:before,
+	span.legend.nodoubt:after {
+		background: transparent !important;
+		color:  transparent !important;
+		box-shadow: none !important;
+		-webkit-box-shadow: none !important;
+		-moz-box-shadow: none !important;
+	}
+
+--></style>
+
+<style type="text/css"><!-- /*鍵盤絵のスタイル*/
+	div#keyboards {/*2つの鍵盤をまとめてるdiv*/
+		float: left;
+		position: relative;
+	}
+
+	table.kb {
+		display: block;
+		border-collapse: collapse;
+		text-align: center;
+	}
+
+	table.kb, table.kb *, figure_legend * { /*テキスト選択防止・Operaには効かず*/
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-khtml-user-select: none;
+		-o-user-select: none;
+	}
+
+	table.kb td {
+		line-height: 16pt;
+		white-space: nowrap !important;
+	}
+
+	table.kb input {
+		margin-top: 4px;
+		opacity: 0; /*スペーシング崩れがいやなので、display:none;は使わず透明化で済ませる*/
+		cursor: pointer;
+
+		/*見えないのを良いことにクリック可能範囲を縦横に広げておく*/
+		-o-transform: scale(2.2,3);
+		-moz-transform: scale(2.2,3);
+		-webkit-transform: scale(2.2,3);
+	}
+
+
+
+
+	table.kb td.bkkey { /*黒鍵*/
+		background: #000000;
+		color: #ffffff;
+		border-bottom: 2px solid #000000;
+		border-top: 2px solid #000000;
+		padding-bottom: 8px;
+	}
+
+	table.kb td.whkey { /*白鍵*/
+		background: #ffffff;
+		color: #000000;
+		border: 2px solid #000000;
+		border-top: none;
+		padding-bottom: 8px;
+	}
+
+	table#kb td.bkkey { /*大鍵盤の黒鍵*/
+		min-width: 23pt;
+	}
+	table#kb td.bkkey, x:-moz-any-link { /*上記Firefox用hack*/
+		min-width: 5px;
+	}
+
+	table#kb td.whkey { /*大鍵盤の白鍵*/
+		min-width: 34pt;
+	}
+
+
+
+
+	table.kb td.nokey { /*白鍵の根元（黒鍵の脇）*/
+		background: #ffffff;
+		color: transparent;
+		border-left: 2px solid #000000;
+		border-right: 2px solid #000000;
+		/*あえて0pxのボーダーを指定しておくことでゴミ防止*/
+		border-bottom: 0px transparent solid;
+		border-top: 0px transparent solid;
+	}
+
+	table.kb td.dmkey { /*白鍵列と黒鍵列のすきま*/
+		background: #ffffff;
+		color: transparent !important;
+		line-height: 7px; /*line-height決め打ちでレイアウト安定化*/
+	}
+
+	table.kb td.dmkey.leftbd { /*鍵盤左端*/
+		border-left: 2px solid #000000;
+	}
+
+	table.kb td.dmkey.rightbd { /*鍵盤右端*/
+		border-right: 2px solid #000000;
+	}
+
+	table.kb td span.index { /*インターバル表示*/
+		font-size: 70%;
+		line-height: 200%;
+	}
+
+	label.key { /*音名ラベル*/
+		cursor: pointer;
+	}
+
+	label.key.dummy { /*白鍵と黒鍵の隙間にある段*/
+		font-weight: bold !important;
+	}
+
+	span.note_name.stem { /*鍵盤根元のクリックポイント*/
+		font-weight: bold;
+	}
+
+
+	/*色替え鍵盤のスタイル*/
+	/*押下中*/
+	table.kb td.playing.whkey,
+	table.kb td.playing.nokey,
+	table.kb td.playing.dmkey,
+	span.legend.playing.whkey {
+		background: #aef100;
+		font-weight: bold;
+	}
+
+	table.kb td.playing.bkkey,
+	span.legend.playing.bkkey {
+		background: #15B804;
+		color: #000000;
+		font-weight: bold;
+	}
+
+	table.kb td.playing.bkkey {
+		border-top: 2px solid #15B804;
+	}
+
+
+	/*ベース音*/
+	table.kb td.bass.whkey,
+	table.kb td.bass.nokey,
+	table.kb td.bass.dmkey,
+	span.legend.bass.whkey {
+		background: #FF7800;
+		color: #000000;
+		font-weight: bold;
+	}
+
+	table.kb td.bass.bkkey,
+	span.legend.bass.bkkey {
+		background: #FFA800;
+		color: #000000;
+		font-weight: bold;
+	}
+
+	table.kb td.bass.bkkey {
+		border-top: 2.001px solid #FFA800; /*ボーダーの太さに違いがないと、playingをbassでオーバーライドできない？*/
+	}
+
+
+
+	/*推測*/
+	table.kb td.doubted.whkey,
+	table.kb td.doubted.nokey,
+	table.kb td.doubted.dmkey,
+	span.legend.doubted.whkey {
+		background: #e6f6bd;
+		font-weight: bold;
+	}
+
+	table.kb td.doubted.bkkey,
+	span.legend.doubted.bkkey {
+		background: #b1e799;
+		color: #000000;
+		font-weight: bold;
+	}
+
+	table.kb td.doubted.bkkey {
+		border-top: 2.001px solid #b1e799;
+	}
+
+
+
+	/*ルート音*/
+	table.kb td.root.whkey,
+	table.kb td.root.nokey,
+	table.kb td.root.dmkey,
+	span.legend.root {
+		background: #ffdd00;
+		color: #000000;
+		font-weight: bold;
+	}
+
+	table.kb td.root.bkkey {
+		background: #ffdd00;
+		border-top: 2.001px solid #ffdd00; /*ボーダーの太さに違いがないと、playingをrootでオーバーライドできない？*/
+		font-weight: bold;
+	}
+
+
+
+	/*推測ルート音*/
+	table.kb td.doubted.root.whkey,
+	table.kb td.doubted.root.nokey,
+	table.kb td.doubted.root.dmkey,
+	span.legend.doubted.root {
+		background: #fff0bb;
+	}
+
+	table.kb td.doubted.root.bkkey {
+		background: #fff0bb;
+		border-top: 2.001px solid #fff0bb;
+	}
+
+
+
+	/*鍵盤に書いてあるけど見せない文字たち*/
+	/*スペーサーとか、選択モードと違う異名同音とか*/
+	table.kb td span.note_name.hidden {
+		color: transparent;
+	}
+
+	/*選択モードと違う異名同音その2（IとIIのうち選択されてない方、の処理）*/
+	table.kb td span.note_name.nodisp {
+		display: none;
+	}
+
+--></style>
+
+<style type="text/css"><!--/*小・鍵盤絵のスタイル*/
+
+	/*中央揃え実現のための外div。jQで一段中のdivと同じ幅にし、左右マージンautoでセンタリング*/
+	div#kb2frameframe {
+		margin: 0 auto;
+		height: 0;
+		line-height: 0; /*内側のスペーシングに影響するので0にしとく*/
+
+		width: 100px; /*この値は実際には使用されない、ただのデフォルト値*/
+		position: relative;  /*relativeの内側にabsoluteを置くことで、このdivを基準に小鍵盤を設置する*/
+	}
+
+	div#kb2frame { /*小キーボードの外枠*/
+		display: none;
+		margin: 0 auto;
+		position: absolute;
+		top: 40px; /*leftは未指定のままで中央揃えになってる*/
+		z-index: 2;
+
+		border: 3px solid #007E8A;
+		border-radius: 15px;
+		padding: 30px;
+		background: rgba(255,255,255,0.8);
+		box-shadow: 0 1px 8px rgba(0, 0, 0, 0.27);
+		-webkit-box-shadow: 0 1px 8px rgba(0, 0, 0, 0.27);
+		-moz-box-shadow: 0 1px 8px rgba(0, 0, 0, 0.27);
+	}
+
+	p#kb2caption { /*キャプション*/
+		text-align: center;
+		font-size: 11pt;
+		margin: 2px 0;
+	}
+	p#kb2caption span {
+		background: #ffffff;
+		box-shadow: 0 0 10px 5px #ffffff;
+	}
+
+	table#kb2 * { /*小鍵盤本体*/
+		color: transparent;
+		font-size: 4px;
+		line-height: 5px;
+		border-width: 1px;
+	}
+
+	/*上記のChrome専用ハック*/
+	@media screen and (-webkit-min-device-pixel-ratio:0){
+
+		table#kb2 * {
+			font-size: 0px; /*これだけだと幅が狭すぎる*/
+			line-height: 6px;
+			border-width: 1px;
+		}
+
+		table#kb2 *:before {
+			content: "."; /*簡単に全該当セルの中身を書き換える方法。幅はこれでギリ許容範囲*/
+			font-size: 1px;
+		}
+
+		div#kb2frameframe {  /*その上で全体縮小*/
+/*			-webkit-transform: scale(0.9);
+			z-index: 2;
+*/		}
+
+		p#kb2caption { /*縮小で縮んだキャプションをでかくする*/
+/*			font-size: 13pt;
+*/		}
+	}
+
+
+	table#kb2 .octaveL { /*オクターブ区切りの各鍵盤*/
+		border-left: 3px solid #000000;
+	}
+	table#kb2 .octaveR {
+		border-right: 3px solid #000000;
+	}
+
+	table#kb2 td.whkey { /*白鍵*/
+		border-bottom: 2px solid #000000;
+	}
+
+
+	/*低音部鍵盤のみスタイル指定する場合ここに書く*/
+	table#kb2 td.whkey.octave1, table#kb2 td.nokey.octave1, table#kb2 td.dmkey.octave1 {
+	}
+	table#kb2 td.bkkey.octave1 {
+	}
+	table#kb2 .octave1 {
+	}
+
+	/*キーボード上のバー*/
+	table#kb2 tr#kbbars {
+		/*display: none;*/
+	}
+	table#kb2 td.kbbar.octave1 {
+		padding-bottom: 5px;
+		border-top: 7px solid #000;
+	}
+	table#kb2 td.kbbar.octave2 {
+		padding-bottom: 5px;
+		border-top: 7px solid transparent;
+	}
+	table#kb2 td.kbbar.octave3 {
+		padding-bottom: 5px;
+		border-top: 7px solid transparent;
+	}
+	table#kb2 td.kbbar.octave4 {
+		padding-bottom: 5px;
+		border-top: 7px solid transparent;
+	}
+
+
+--></style>
+
+<style type="text/css"><!--/*出力コードのスタイル*/
+	/*全体のbox*/
+	div#analysed_chord, div#analysed_chord_copied {
+		background: #ffffff;
+		text-align: left;
+		padding: 1.3em 1.6em;
+		border-radius: 10px;
+		border: 3px solid #f0b030;
+		width: 400px;
+		clear: left;
+	}
+
+	div#analysed_chord_copied {
+		display: none;
+	}
+
+
+	/*リスト全体*/
+	ul.chord_list {
+		padding-left: 1ex;
+		margin: 1ex 0 1.5ex 0;
+		list-style-type: none;
+	}
+
+	ul.chord_list > li {
+		margin: 0;
+		line-height: 2em;
+		cursor: pointer;
+	}
+
+
+	/*hover時*/
+	li.chord_lines span.chord_line {
+		padding: 7px 7px 7px 0;
+	}
+	li.chord_lines:hover {
+		margin-left: -7px;
+	}
+	li.chord_lines:hover span.chord_line {
+		background: #22b0e5;
+		padding-left: 7px;
+		border-radius: 7px;
+	}
+
+	li.chord_lines:hover .chord_doubt {
+		color: #ffffff;
+	}
+
+	/*固定行*/
+	li.fixed_line span.chord_line {
+		background: #1D33A1 !important;
+		color: #ffffff;
+		padding: 7px;
+		border-radius: 7px;
+		border: 3px solid #efefef;
+		box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.57) inset;
+		-webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.57) inset;
+		-moz-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.57) inset;
+	}
+
+	/*?マーク*/
+	li.fixed_line .chord_doubt,
+	li.fixed_line:hover .chord_doubt {
+		color: #c0c0c0;
+	}
+
+	/*無効行*/
+	li.chord_lines_disabled,
+	li.chord_lines_disabled span.chord_doubt {
+		color: #e0e0e0;
+	}
+
+
+	/*上付き文字*/
+	ul.chord_list sup {
+		font-size: 85%;
+		vertical-align: 1ex;
+		margin-right: 0.2ex;
+		margin-left: -0.2ex;
+	}
+
+	/*rootとその変化記号*/
+	.chord_root {
+		font-weight: bold;
+		font-size: 120%;
+		margin-right: 0.5ex;
+	}
+	.chord_root sup {
+		margin-right: -0.4ex !important;
+		font-size: 85%;
+	}
+	sup.chord_spacer {
+		color: transparent;
+	}
+
+
+	/*bassとその変化記号*/
+	.chord_bass {
+		font-size: 120%;
+		margin-right: 0.5ex;
+	}
+
+	.chord_bass sup {
+		margin-right: -0.4ex !important;
+	}
+
+
+	/*M7や6といった下付の数字*/
+	.chord_interval {
+		font-size: 100%;
+		margin-right: 0.5ex;
+	}
+
+	/*mやsusなど*/
+	.chord_operator {
+		font-size: 110%;
+		margin-right: 0.2ex;
+	}
+
+	/*?マーク*/
+	.chord_doubt {
+		color: #a0a0a0;
+		font-size: 120%;
+		margin-left: 1ex;
+	}
+
+
+	/*初期表示文字列ほか*/
+	.chord_message {
+		font-size: 110%;
+	}
+
+
+--></style>
+
+<style type="text/css"><!--/*そのほかのスタイル*/
+	/*ブラウザ別警告の共通スタイル*/
+	#alerts {
+		position: absolute;
+	}
+
+	.browseralert {
+		color: #dddddd;
+		font-style: italic;
+		background: #404040;
+		border-radius: 10px;
+		padding: 1em;
+
+		position: relative;
+		top: -50px;
+		left: 50px;
+		display: none;
+
+		box-shadow: 5px 6px 10px rgba(0, 0, 0, 0.47);
+		-webkit-box-shadow: 5px 6px 10px rgba(0, 0, 0, 0.47);
+		-moz-box-shadow: 5px 6px 10px rgba(0, 0, 0, 0.47);
+	}
+
+
+	/*右下の無駄なインジケーター*/
+	.info {
+		color: #dcd8d0;
+		font: italic 1500% serif;
+
+		float: right;
+		clear: left;
+		position: relative;
+		bottom: 0.1ex;
+		right: 0.2ex;
+		display: inline-block;
+		overflow: visible;
+	}
+
+	.info span {
+		margin-right: -0.1ex;
+		margin-left: -0.4ex;
+	}
+
+	.info sub {
+		font-size: 30%;
+		vertical-align: 5px;
+	}
+
+
+	/*バージョン情報など*/
+	p.versiondisp {
+		font-size: smaller;
+		font-style: italic;
+		text-align: right;
+		padding: 0 2ex;
+		height: 40px;
+		overflow: visible;
+	}
+
+	p.versiondisp a#correctrend {
+		color: #E7B540;
+		background: #fffcf4;
+	}
+
+	img#counterimg {
+		opacity: 0.3;
+	}
+--></style>
+
+<title>Chord Symbol Analyser</title>
+
+</head>
+
+
+
+<body id="body" onload="startup()">
+<!--onloadで鍵盤クリアをする：firefoxではリロード後もチェックボックスが保持されるため、それ対策-->
+
+
+<div id="analysed_chord_copied"></div><!--jQuery用のダミーdiv-->
+<div id="innerWrapper">
+
+
+<div id="keyboards"><table summary="15ma. (2x 8va.) 鍵盤絵" id="kb" class="kb">
+	<tr><!--上下にflatとsharpが両方揃ってないと、nodispしたとき鍵盤の幅が微妙にズレるので、上下段ともnodisp用のnote_nameを書いてある-->
+	<!--改行はタグ内部でしないと、イレギュラーな位置にスペースが出て描画がズレる。特にChrome-->
+		<td name="key_0" class="nokey" colspan="2"><label class="key" for="c"><span class="note_name hidden stem">__<br />__<br />__<br />__<br />__</span></label></td>
+		<td name="key_1" class="bkkey" colspan="2">
+			<label class="key" for="cis"><span
+			name="key_index" id="key_index_1" class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="cis" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="cis"><span
+			name="key_sharp" class="note_name hidden main">C<sup>♯</sup></span><span
+			name="key_flat_alt" class="note_name nodisp hidden main">D<sup>♭</sup></span><br /><span
+			name="key_sharp_alt" class="note_name nodisp hidden main">C<sup>♯</sup></span><span
+			name="key_flat" class="note_name main">D<sup>♭</sup></span></label>
+		</td>
+		<td name="key_2" class="nokey"><label class="key" for="d"><span class="note_name hidden stem">_<br />_<br />_<br />_<br />_</span></label></td>
+		<td name="key_3" class="bkkey" colspan="2">
+			<label class="key" for="dis"><span
+			name="key_index" id="key_index_3" class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="dis" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="dis"><span
+			name="key_sharp" class="note_name hidden main">D<sup>♯</sup></span><span
+			name="key_flat_alt" class="note_name nodisp hidden main">E<sup>♭</sup></span><br /><span
+			name="key_sharp_alt" class="note_name nodisp hidden main">D<sup>♯</sup></span><span
+			name="key_flat" class="note_name main">E<sup>♭</sup></span></label>
+		</td>
+		<td name="key_4" class="nokey" colspan="2"><label class="key" for="e"><span class="note_name hidden stem">__<br />__<br />__<br />__<br />__</span></label></td>
+		<td name="key_5" class="nokey" colspan="2"><label class="key" for="f"><span class="note_name hidden stem">__<br />__<br />__<br />__<br />__</span></label></td>
+		<td name="key_6" class="bkkey" colspan="2">
+			<label class="key" for="fis"><span
+			name="key_index" id="key_index_6" class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="fis" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="fis"><span
+			name="key_sharp" class="note_name hidden main">F<sup>♯</sup></span><span
+			name="key_flat_alt" class="note_name nodisp hidden main">G<sup>♭</sup></span><br /><span
+			name="key_sharp_alt" class="note_name nodisp hidden main">F<sup>♯</sup></span><span
+			name="key_flat" class="note_name main">G<sup>♭</sup></span></label>
+		</td>
+		<td name="key_7" class="nokey"><label class="key" for="g"><span class="note_name hidden stem">_<br />_<br />_<br />_<br />_</span></label></td>
+		<td name="key_8" class="bkkey" colspan="2">
+			<label class="key" for="gis"><span
+			name="key_index" id="key_index_8" class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="gis" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="gis"><span
+			name="key_sharp" class="note_name hidden main">G<sup>♯</sup></span><span
+			name="key_flat_alt" class="note_name nodisp hidden main">A<sup>♭</sup></span><br /><span
+			name="key_sharp_alt" class="note_name nodisp hidden main">G<sup>♯</sup></span><span
+			name="key_flat" class="note_name main">A<sup>♭</sup></span></label>
+		</td>
+		<td name="key_9" class="nokey"><label class="key" for="a"><span class="note_name hidden stem">_<br />_<br />_<br />_<br />_</span></label></td>
+		<td name="key_10" class="bkkey" colspan="2">
+			<label class="key" for="b"><span
+			name="key_index" id="key_index_10" class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="b" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="b"><span
+			name="key_sharp" class="note_name hidden main">A<sup>♯</sup></span><span
+			name="key_flat_alt" class="note_name nodisp hidden main">B<sup>♭</sup></span><br /><span
+			name="key_sharp_alt" class="note_name nodisp hidden main">A<sup>♯</sup></span><span
+			name="key_flat" class="note_name main">B<sup>♭</sup></span></label>
+		</td>
+		<td name="key_11" class="nokey" colspan="2"><label class="key" for="h"><span class="note_name hidden stem">__<br />__<br />__<br />__<br />__</span></label></td>
+
+
+		<td name="key_12" class="nokey" colspan="2"><label class="key" for="c2"><span class="note_name hidden stem">__<br />__<br />__<br />__<br />__</span></label></td>
+		<td name="key_13" class="bkkey" colspan="2">
+			<label class="key" for="cis2"><span
+			name="key_index" id="key_index_13" class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="cis2" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="cis2"><span
+			name="key_sharp" class="note_name hidden main">C<sup>♯</sup></span><span
+			name="key_flat_alt" class="note_name nodisp hidden main">D<sup>♭</sup></span><br /><span
+			name="key_sharp_alt" class="note_name nodisp hidden main">C<sup>♯</sup></span><span
+			name="key_flat" class="note_name main">D<sup>♭</sup></span></label>
+		</td>
+		<td name="key_14" class="nokey"><label class="key" for="d2"><span class="note_name hidden stem">_<br />_<br />_<br />_<br />_</span></label></td>
+		<td name="key_15" class="bkkey" colspan="2">
+			<label class="key" for="dis2"><span
+			name="key_index" id="key_index_15" class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="dis2" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="dis2"><span
+			name="key_sharp" class="note_name hidden main">D<sup>♯</sup></span><span
+			name="key_flat_alt" class="note_name nodisp hidden main">E<sup>♭</sup></span><br /><span
+			name="key_sharp_alt" class="note_name nodisp hidden main">D<sup>♯</sup></span><span
+			name="key_flat" class="note_name main">E<sup>♭</sup></span></label>
+		</td>
+		<td name="key_16" class="nokey" colspan="2"><label class="key" for="e2"><span class="note_name hidden stem">__<br />__<br />__<br />__<br />__</span></label></td>
+		<td name="key_17" class="nokey" colspan="2"><label class="key" for="f2"><span class="note_name hidden stem">__<br />__<br />__<br />__<br />__</span></label></td>
+		<td name="key_18" class="bkkey" colspan="2">
+			<label class="key" for="fis2"><span
+			name="key_index" id="key_index_18" class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="fis2" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="fis2"><span
+			name="key_sharp" class="note_name hidden main">F<sup>♯</sup></span><span
+			name="key_flat_alt" class="note_name nodisp hidden main">G<sup>♭</sup></span><br /><span
+			name="key_sharp_alt" class="note_name nodisp hidden main">F<sup>♯</sup></span><span
+			name="key_flat" class="note_name main">G<sup>♭</sup></span></label>
+		</td>
+		<td name="key_19" class="nokey"><label class="key" for="g2"><span class="note_name hidden stem">_<br />_<br />_<br />_<br />_</span></label></td>
+		<td name="key_20" class="bkkey" colspan="2">
+			<label class="key" for="gis2"><span
+			name="key_index" id="key_index_20" class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="gis2" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="gis2"><span
+			name="key_sharp" class="note_name hidden main">G<sup>♯</sup></span><span
+			name="key_flat_alt" class="note_name nodisp hidden main">A<sup>♭</sup></span><br /><span
+			name="key_sharp_alt" class="note_name nodisp hidden main">G<sup>♯</sup></span><span
+			name="key_flat" class="note_name main">A<sup>♭</sup></span></label>
+		</td>
+		<td name="key_21" class="nokey"><label class="key" for="a2"><span class="note_name hidden stem">_<br />_<br />_<br />_<br />_</span></label></td>
+		<td name="key_22" class="bkkey" colspan="2">
+			<label class="key" for="b2"><span
+			name="key_index" id="key_index_22" class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="b2" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="b2"><span
+			name="key_sharp" class="note_name hidden main">A<sup>♯</sup></span><span
+			name="key_flat_alt" class="note_name nodisp hidden main">B<sup>♭</sup></span><br /><span
+			name="key_sharp_alt" class="note_name nodisp hidden main">A<sup>♯</sup></span><span
+			name="key_flat" class="note_name main">B<sup>♭</sup></span></label>
+		</td>
+		<td name="key_23" class="nokey" colspan="2"><label class="key" for="h2"><span class="note_name hidden stem">__<br />__<br />__<br />__<br />__</span></label></td>
+	</tr>
+
+	<tr>
+		<td name="key_0" class="dmkey leftbd"><label class="key dummy" for="c">_</label></td>
+		<td name="key_0" class="dmkey"><label class="key dummy" for="c">_</label></td>
+		<td name="key_0" class="dmkey rightbd"><label class="key dummy" for="c">_</label></td>
+		<td name="key_2" class="dmkey leftbd"><label class="key dummy" for="d">_</label></td>
+		<td name="key_2" class="dmkey"><label class="key dummy" for="d">_</label></td>
+		<td name="key_2" class="dmkey rightbd"><label class="key dummy" for="d">_</label></td>
+		<td name="key_4" class="dmkey leftbd"><label class="key dummy" for="e">_</label></td>
+		<td name="key_4" class="dmkey"><label class="key dummy" for="e">_</label></td>
+		<td name="key_4" class="dmkey rightbd"><label class="key dummy" for="e">_</label></td>
+		<td name="key_5" class="dmkey leftbd"><label class="key dummy" for="f">_</label></td>
+		<td name="key_5" class="dmkey"><label class="key dummy" for="f">_</label></td>
+		<td name="key_5" class="dmkey rightbd"><label class="key dummy" for="f">_</label></td>
+		<td name="key_7" class="dmkey"><label class="key dummy" for="g">_</label></td>
+		<td name="key_7" class="dmkey"><label class="key dummy" for="g">_</label></td>
+		<td name="key_7" class="dmkey rightbd"><label class="key dummy" for="g">_</label></td>
+		<td name="key_9" class="dmkey leftbd"><label class="key dummy" for="a">_</label></td>
+		<td name="key_9" class="dmkey"><label class="key dummy" for="a">_</label></td>
+		<td name="key_9" class="dmkey rightbd"><label class="key dummy" for="a">_</label></td>
+		<td name="key_11" class="dmkey leftbd"><label class="key dummy" for="b">_</label></td>
+		<td name="key_11" class="dmkey"><label class="key dummy" for="b">_</label></td>
+		<td name="key_11" class="dmkey rightbd"><label class="key dummy" for="b">_</label></td>
+
+
+
+
+		<td name="key_12" class="dmkey leftbd"><label class="key dummy" for="c2">_</label></td>
+		<td name="key_12" class="dmkey"><label class="key dummy" for="c2">_</label></td>
+		<td name="key_12" class="dmkey rightbd"><label class="key dummy" for="c2">_</label></td>
+		<td name="key_14" class="dmkey leftbd"><label class="key dummy" for="d2">_</label></td>
+		<td name="key_14" class="dmkey"><label class="key dummy" for="d2">_</label></td>
+		<td name="key_14" class="dmkey rightbd"><label class="key dummy" for="d2">_</label></td>
+		<td name="key_16" class="dmkey leftbd"><label class="key dummy" for="e2">_</label></td>
+		<td name="key_16" class="dmkey"><label class="key dummy" for="e2">_</label></td>
+		<td name="key_16" class="dmkey rightbd"><label class="key dummy" for="e2">_</label></td>
+		<td name="key_17" class="dmkey leftbd"><label class="key dummy" for="f2">_</label></td>
+		<td name="key_17" class="dmkey"><label class="key dummy" for="f2">_</label></td>
+		<td name="key_17" class="dmkey rightbd"><label class="key dummy" for="f2">_</label></td>
+		<td name="key_19" class="dmkey"><label class="key dummy" for="g2">_</label></td>
+		<td name="key_19" class="dmkey"><label class="key dummy" for="g2">_</label></td>
+		<td name="key_19" class="dmkey rightbd"><label class="key dummy" for="g2">_</label></td>
+		<td name="key_21" class="dmkey leftbd"><label class="key dummy" for="a2">_</label></td>
+		<td name="key_21" class="dmkey"><label class="key dummy" for="a2">_</label></td>
+		<td name="key_21" class="dmkey rightbd"><label class="key dummy" for="a2">_</label></td>
+		<td name="key_23" class="dmkey leftbd"><label class="key dummy" for="b2">_</label></td>
+		<td name="key_23" class="dmkey"><label class="key dummy" for="b2">_</label></td>
+		<td name="key_23" class="dmkey rightbd"><label class="key dummy" for="b2">_</label></td>
+	</tr>
+
+	<tr><!--改行をタグ内部でしないとイレギュラーな位置にスペースが出て表示がズレる-->
+		<td name="key_0" class="whkey" colspan="3">
+			<label class="key" for="c"><span name="key_index" id="key_index_0"
+			class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="c" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="c"><span
+			name="key_copy" class="note_name hidden main">_ </span><span
+			name="key_natural" class="note_name main">C</span><span
+			name="key_copy" class="note_name hidden main"> _</span></label>
+		</td>
+		<td name="key_2" class="whkey" colspan="3">
+			<label class="key" for="d"><span name="key_index" id="key_index_2"
+			class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="d" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="d"><span
+			name="key_copy" class="note_name hidden main">_ </span><span
+			name="key_natural" class="note_name main">D</span><span
+			name="key_copy" class="note_name hidden main"> _</span></label>
+		</td>
+		<td name="key_4" class="whkey" colspan="3">
+			<label class="key" for="e"><span name="key_index" id="key_index_4"
+			class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="e" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="e"><span
+			name="key_copy" class="note_name hidden main">_ </span><span
+			name="key_natural" class="note_name main">E</span><span
+			name="key_copy" class="note_name hidden main"> _</span></label>
+		</td>
+		<td name="key_5" class="whkey" colspan="3">
+			<label class="key" for="f"><span name="key_index" id="key_index_5"
+			class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="f" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="f"><span
+			name="key_copy" class="note_name hidden main">_ </span><span
+			name="key_natural" class="note_name main">F</span><span
+			name="key_copy" class="note_name hidden main"> _</span></label>
+		</td>
+		<td name="key_7" class="whkey" colspan="3">
+			<label class="key" for="g"><span name="key_index" id="key_index_7"
+			class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="g" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="g"><span
+			name="key_copy" class="note_name hidden main">_ </span><span
+			name="key_natural" class="note_name main">G</span><span
+			name="key_copy" class="note_name hidden main"> _</span></label>
+		</td>
+		<td name="key_9" class="whkey" colspan="3">
+			<label class="key" for="a"><span name="key_index" id="key_index_9"
+			class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="a" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="a"><span
+			name="key_copy" class="note_name hidden main">_ </span><span
+			name="key_natural" class="note_name main">A</span><span
+			name="key_copy" class="note_name hidden main"> _</span></label>
+		</td>
+		<td name="key_11" class="whkey" colspan="3">
+			<label class="key" for="h"><span name="key_index" id="key_index_11"
+			class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="h" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="h"><span
+			name="key_copy" class="note_name hidden main">_ </span><span
+			name="key_natural" class="note_name main">B</span><span
+			name="key_copy" class="note_name hidden main"> _</span></label>
+		</td>
+
+
+
+
+		<td name="key_12" class="whkey" colspan="3">
+			<label class="key" for="c2"><span name="key_index" id="key_index_12"
+			class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="c2" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="c2"><span
+			name="key_copy" class="note_name hidden main">_ </span><span
+			name="key_natural" class="note_name main">C</span><span
+			name="key_copy" class="note_name hidden main"> _</span></label>
+		</td>
+		<td name="key_14" class="whkey" colspan="3">
+			<label class="key" for="d2"><span name="key_index" id="key_index_14"
+			class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="d2" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="d2"><span
+			name="key_copy" class="note_name hidden main">_ </span><span
+			name="key_natural" class="note_name main">D</span><span
+			name="key_copy" class="note_name hidden main"> _</span></label>
+		</td>
+		<td name="key_16" class="whkey" colspan="3">
+			<label class="key" for="e2"><span name="key_index" id="key_index_16"
+			class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="e2" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="e2"><span
+			name="key_copy" class="note_name hidden main">_ </span><span
+			name="key_natural" class="note_name main">E</span><span
+			name="key_copy" class="note_name hidden main"> _</span></label>
+		</td>
+		<td name="key_17" class="whkey" colspan="3">
+			<label class="key" for="f2"><span name="key_index" id="key_index_17"
+			class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="f2" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="f2"><span
+			name="key_copy" class="note_name hidden main">_ </span><span
+			name="key_natural" class="note_name main">F</span><span
+			name="key_copy" class="note_name hidden main"> _</span></label>
+		</td>
+		<td name="key_19" class="whkey" colspan="3">
+			<label class="key" for="g2"><span name="key_index" id="key_index_19"
+			class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="g2" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="g2"><span
+			name="key_copy" class="note_name hidden main">_ </span><span
+			name="key_natural" class="note_name main">G</span><span
+			name="key_copy" class="note_name hidden main"> _</span></label>
+		</td>
+		<td name="key_21" class="whkey" colspan="3">
+			<label class="key" for="a2"><span name="key_index" id="key_index_21"
+			class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="a2" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="a2"><span
+			name="key_copy" class="note_name hidden main">_ </span><span
+			name="key_natural" class="note_name main">A</span><span
+			name="key_copy" class="note_name hidden main"> _</span></label>
+		</td>
+		<td name="key_23" class="whkey" colspan="3">
+			<label class="key" for="h2"><span name="key_index" id="key_index_23"
+			class="note_name hidden index">_0_</span></label><br /><input type="checkbox"
+			name="keys" id="h2" onclick="noteIn()" onkeypress="noteIn()" /><br /><label class="key" for="h2"><span
+			name="key_copy" class="note_name hidden main">_ </span><span
+			name="key_natural" class="note_name main">B</span><span
+			name="key_copy" class="note_name hidden main"> _</span></label>
+		</td>
+	</tr>
+</table>
+<div id="kb2frameframe">
+	<div id="kb2frame"><p id="kb2caption"><span>この和音の基本形</span></p>
+	<table summary="3 or 4x 8va. 鍵盤絵" id="kb2" class="kb">
+		<tr>
+			<td class="octave1 kbbar" colspan="21"></td>
+			<td class="octave2 kbbar" colspan="21"></td>
+			<td class="octave3 kbbar" colspan="21"></td>
+			<td class="octave4 kbbar" colspan="21"></td>
+		</tr>
+
+		<tr>
+			<td name="keyS_0" class="octave1 nokey octaveL" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_1" class="octave1 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_2" class="octave1 nokey">_<br />_<br />_</td>
+			<td name="keyS_3" class="octave1 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_4" class="octave1 nokey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_5" class="octave1 nokey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_6" class="octave1 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_7" class="octave1 nokey">_<br />_<br />_</td>
+			<td name="keyS_8" class="octave1 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_9" class="octave1 nokey">_<br />_<br />_</td>
+			<td name="keyS_10" class="octave1 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_11" class="octave1 nokey octaveR" colspan="2">_<br />_<br />_</td>
+
+			<td name="keyS_12" class="octave2 nokey octaveL" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_13" class="octave2 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_14" class="octave2 nokey">_<br />_<br />_</td>
+			<td name="keyS_15" class="octave2 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_16" class="octave2 nokey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_17" class="octave2 nokey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_18" class="octave2 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_19" class="octave2 nokey">_<br />_<br />_</td>
+			<td name="keyS_20" class="octave2 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_21" class="octave2 nokey">_<br />_<br />_</td>
+			<td name="keyS_22" class="octave2 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_23" class="octave2 nokey octaveR" colspan="2">_<br />_<br />_</td>
+
+			<td name="keyS_24" class="octave3 nokey octaveL" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_25" class="octave3 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_26" class="octave3 nokey">_<br />_<br />_</td>
+			<td name="keyS_27" class="octave3 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_28" class="octave3 nokey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_29" class="octave3 nokey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_30" class="octave3 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_31" class="octave3 nokey">_<br />_<br />_</td>
+			<td name="keyS_32" class="octave3 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_33" class="octave3 nokey">_<br />_<br />_</td>
+			<td name="keyS_34" class="octave3 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_35" class="octave3 nokey octaveR" colspan="2">_<br />_<br />_</td>
+
+			<td name="keyS_36" class="octave4 nokey octaveL" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_37" class="octave4 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_38" class="octave4 nokey">_<br />_<br />_</td>
+			<td name="keyS_39" class="octave4 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_40" class="octave4 nokey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_41" class="octave4 nokey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_42" class="octave4 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_43" class="octave4 nokey">_<br />_<br />_</td>
+			<td name="keyS_44" class="octave4 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_45" class="octave4 nokey">_<br />_<br />_</td>
+			<td name="keyS_46" class="octave4 bkkey" colspan="2">_<br />_<br />_</td>
+			<td name="keyS_47" class="octave4 nokey octaveR" colspan="2">_<br />_<br />_</td>
+		</tr>
+
+		<tr>
+			<td name="keyS_0" class="octave1 dmkey leftbd octaveL">_</td>
+			<td name="keyS_0" class="octave1 dmkey">_</td>
+			<td name="keyS_0" class="octave1 dmkey rightbd">_</td>
+			<td name="keyS_2" class="octave1 dmkey leftbd">_</td>
+			<td name="keyS_2" class="octave1 dmkey">_</td>
+			<td name="keyS_2" class="octave1 dmkey rightbd">_</td>
+			<td name="keyS_4" class="octave1 dmkey leftbd">_</td>
+			<td name="keyS_4" class="octave1 dmkey">_</td>
+			<td name="keyS_4" class="octave1 dmkey rightbd">_</td>
+			<td name="keyS_5" class="octave1 dmkey leftbd">_</td>
+			<td name="keyS_5" class="octave1 dmkey">_</td>
+			<td name="keyS_5" class="octave1 dmkey rightbd">_</td>
+			<td name="keyS_7" class="octave1 dmkey">_</td>
+			<td name="keyS_7" class="octave1 dmkey">_</td>
+			<td name="keyS_7" class="octave1 dmkey rightbd">_</td>
+			<td name="keyS_9" class="octave1 dmkey leftbd">_</td>
+			<td name="keyS_9" class="octave1 dmkey">_</td>
+			<td name="keyS_9" class="octave1 dmkey rightbd">_</td>
+			<td name="keyS_11" class="octave1 dmkey leftbd">_</td>
+			<td name="keyS_11" class="octave1 dmkey">_</td>
+			<td name="keyS_11" class="octave1 dmkey rightbd octaveR">_</td>
+
+			<td name="keyS_12" class="octave2 dmkey leftbd octaveL">_</td>
+			<td name="keyS_12" class="octave2 dmkey">_</td>
+			<td name="keyS_12" class="octave2 dmkey rightbd">_</td>
+			<td name="keyS_14" class="octave2 dmkey leftbd">_</td>
+			<td name="keyS_14" class="octave2 dmkey">_</td>
+			<td name="keyS_14" class="octave2 dmkey rightbd">_</td>
+			<td name="keyS_16" class="octave2 dmkey leftbd">_</td>
+			<td name="keyS_16" class="octave2 dmkey">_</td>
+			<td name="keyS_16" class="octave2 dmkey rightbd">_</td>
+			<td name="keyS_17" class="octave2 dmkey leftbd">_</td>
+			<td name="keyS_17" class="octave2 dmkey">_</td>
+			<td name="keyS_17" class="octave2 dmkey rightbd">_</td>
+			<td name="keyS_19" class="octave2 dmkey">_</td>
+			<td name="keyS_19" class="octave2 dmkey">_</td>
+			<td name="keyS_19" class="octave2 dmkey rightbd">_</td>
+			<td name="keyS_21" class="octave2 dmkey leftbd">_</td>
+			<td name="keyS_21" class="octave2 dmkey">_</td>
+			<td name="keyS_21" class="octave2 dmkey rightbd">_</td>
+			<td name="keyS_23" class="octave2 dmkey leftbd">_</td>
+			<td name="keyS_23" class="octave2 dmkey">_</td>
+			<td name="keyS_23" class="octave2 dmkey rightbd octaveR">_</td>
+
+			<td name="keyS_24" class="octave3 dmkey leftbd octaveL">_</td>
+			<td name="keyS_24" class="octave3 dmkey">_</td>
+			<td name="keyS_24" class="octave3 dmkey rightbd">_</td>
+			<td name="keyS_26" class="octave3 dmkey leftbd">_</td>
+			<td name="keyS_26" class="octave3 dmkey">_</td>
+			<td name="keyS_26" class="octave3 dmkey rightbd">_</td>
+			<td name="keyS_28" class="octave3 dmkey leftbd">_</td>
+			<td name="keyS_28" class="octave3 dmkey">_</td>
+			<td name="keyS_28" class="octave3 dmkey rightbd">_</td>
+			<td name="keyS_29" class="octave3 dmkey leftbd">_</td>
+			<td name="keyS_29" class="octave3 dmkey">_</td>
+			<td name="keyS_29" class="octave3 dmkey rightbd">_</td>
+			<td name="keyS_31" class="octave3 dmkey">_</td>
+			<td name="keyS_31" class="octave3 octave3 dmkey">_</td>
+			<td name="keyS_31" class="octave3 octave3 dmkey rightbd">_</td>
+			<td name="keyS_33" class="octave3 dmkey leftbd">_</td>
+			<td name="keyS_33" class="octave3 dmkey">_</td>
+			<td name="keyS_33" class="octave3 dmkey rightbd">_</td>
+			<td name="keyS_35" class="octave3 dmkey leftbd">_</td>
+			<td name="keyS_35" class="octave3 dmkey">_</td>
+			<td name="keyS_35" class="octave3 dmkey rightbd octaveR">_</td>
+
+			<td name="keyS_36" class="octave4 dmkey leftbd octaveL">_</td>
+			<td name="keyS_36" class="octave4 dmkey">_</td>
+			<td name="keyS_36" class="octave4 dmkey rightbd">_</td>
+			<td name="keyS_38" class="octave4 dmkey leftbd">_</td>
+			<td name="keyS_38" class="octave4 dmkey">_</td>
+			<td name="keyS_38" class="octave4 dmkey rightbd">_</td>
+			<td name="keyS_40" class="octave4 dmkey leftbd">_</td>
+			<td name="keyS_40" class="octave4 dmkey">_</td>
+			<td name="keyS_40" class="octave4 dmkey rightbd">_</td>
+			<td name="keyS_41" class="octave4 dmkey leftbd">_</td>
+			<td name="keyS_41" class="octave4 dmkey">_</td>
+			<td name="keyS_41" class="octave4 dmkey rightbd">_</td>
+			<td name="keyS_43" class="octave4 dmkey">_</td>
+			<td name="keyS_43" class="octave4 dmkey">_</td>
+			<td name="keyS_43" class="octave4 dmkey rightbd">_</td>
+			<td name="keyS_45" class="octave4 dmkey leftbd">_</td>
+			<td name="keyS_45" class="octave4 dmkey">_</td>
+			<td name="keyS_45" class="octave4 dmkey rightbd">_</td>
+			<td name="keyS_47" class="octave4 dmkey leftbd">_</td>
+			<td name="keyS_47" class="octave4 dmkey">_</td>
+			<td name="keyS_47" class="octave4 dmkey rightbd octaveR">_</td>
+		</tr>
+
+		<tr>
+			<td name="keyS_0" class="octave1 whkey octaveL" colspan="3">_<br />_</td>
+			<td name="keyS_2" class="octave1 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_4" class="octave1 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_5" class="octave1 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_7" class="octave1 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_9" class="octave1 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_11" class="octave1 whkey octaveR" colspan="3">_<br />_</td>
+
+			<td name="keyS_12" class="octave2 whkey octaveL" colspan="3">_<br />_</td>
+			<td name="keyS_14" class="octave2 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_16" class="octave2 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_17" class="octave2 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_19" class="octave2 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_21" class="octave2 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_23" class="octave2 whkey octaveR" colspan="3">_<br />_</td>
+
+			<td name="keyS_24" class="octave3 whkey octaveL" colspan="3">_<br />_</td>
+			<td name="keyS_26" class="octave3 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_28" class="octave3 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_29" class="octave3 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_31" class="octave3 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_33" class="octave3 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_35" class="octave3 whkey octaveR" colspan="3">_<br />_</td>
+
+			<td name="keyS_36" class="octave4 whkey octaveL" colspan="3">_<br />_</td>
+			<td name="keyS_38" class="octave4 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_40" class="octave4 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_41" class="octave4 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_43" class="octave4 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_45" class="octave4 whkey" colspan="3">_<br />_</td>
+			<td name="keyS_47" class="octave4 whkey octaveR" colspan="3">_<br />_</td>
+		</tr>
+
+	</table></div>
+</div></div>
+
+
+<span id="release_keys" title="鍵盤から指を離す" onclick="noteIn('clear')" onkeypress="noteIn('clear')" acceskey="r">@<!--&#x267b;--></span>
+
+<div id="options_form">
+
+	<p id="scale_policies"><!--FSB-->
+		<input type="radio" class="fsb" name="fsb" id="sharp_chord" value="sharp" onclick="noteIn()"
+		onkeypress="noteIn()" /><label name="label_fsb" for="sharp_chord" class="fsb" id="sharp_label">シャープ系</label>
+
+		<input type="radio" class="fsb" name="fsb" id="flat_chord" value="flat" onclick="noteIn()"
+		onkeypress="noteIn()" checked="checked" /><label name="label_fsb" for="flat_chord" id="flat_label" class="fsb selected">フラット系</label>
+
+		<input type="radio" class="fsb" name="fsb" id="both_chord" value="both" onclick="noteIn()"
+		onkeypress="noteIn()" /><label name="label_fsb" for="both_chord" class="fsb" id="both_label">全部出す</label>
+
+		<input type="radio" class="fsb" name="fsb" id="both2_chord" value="both_alt" onclick="noteIn()"
+		onkeypress="noteIn()" style="display: none;" /><label name="label_fsb" for="both2_chord" class="fsb" id="both2_label" style="display: none;">Ⅱ</label>
+
+		<input type="radio" class="fsb" name="fsb" id="innocent_chord" value="none" onclick="noteIn()"
+		onkeypress="noteIn()" /><label name="label_fsb" for="innocent_chord" class="fsb" id="innocent_label">全部消す</label>
+	</p>
+
+	<div id="figure_legend"><!--LEGEND-->
+		<p class="legend_lines">
+			<span id="legendP1" class="legend playing whkey">押下中</span>
+			<span class="legendLs"><span name="doubtlegend" id="legendDP1" class="legend doubted whkey">推測</span></span>
+		</p><p class="legend_lines">
+			<span id="legendP2" class="legend playing bkkey">押下中</span>
+			<span class="legendLs"><span name="doubtlegend" id="legendDP2" class="legend doubted bkkey">推測</span></span>
+		</p><p class="legend_lines">
+			<span class="legend root" id="legendR">ルート</span>
+			<span class="legendLs"><span name="doubtlegend" id="legendDR" class="legend root doubted">推測</span></span>
+		</p><p class="legend_lines" id="legendBs">
+			<span name="basslegend" id="legendB1" class="legend bass whkey">ベース</span>
+			<span name="basslegend" id="legendB2" class="legend bass bkkey">ベース</span>
+		</p>
+	</div>
+
+	<ul id="analyse_options"><!--OPTIONS-->
+		<li><input type="checkbox" id="symbolic_chord" name="symbolic_chord" onclick="noteIn()" onkeypress="noteIn()" />
+		<label for="symbolic_chord" id="symbolic_chord_label" >シンボル的コードネームを使う【○△□∅+-】</label></li>
+
+		<li><input type="checkbox" id="bass_note" name="bass_note" onclick="noteIn()" onkeypress="noteIn()" />
+		<label for="bass_note" id="bass_note_label">低音部の鍵盤をベース音として認識させる【オンコード】</label></li>
+
+		<li><input type="checkbox" id="note_Guess" name="note_Guess" onclick="noteIn()" onkeypress="noteIn()" checked="checked" />
+		<label for="note_Guess" id="note_Guess_label">追加で乗りそうな音を推測させる</label></li>
+
+		<li><input type="checkbox" id="interval_analyse" name="interval_analyse" onclick="noteIn()" onkeypress="noteIn()" checked="checked" />
+		<label for="interval_analyse" id="interval_analyse_label">Rootからのインターバルを表示する</label></li>
+
+		<li style="margin-left: 2em;" id="int_lang_options"><span id="ilng_arrow1">●</span><span id="ilng_arrow2">●</span><span id="ilng_arrow3">●</span>
+		<input type="radio" class="ilng" name="ilng" id="ilng_ja" value="ja" onclick="noteIn()"
+		onkeypress="noteIn()" /><label for="ilng_ja" class="ilng"><span class="embold">和式</span></label>
+
+		<input type="radio" class="ilng" name="ilng" id="ilng_en" value="en" onclick="noteIn()"
+		onkeypress="noteIn()" /><label for="ilng_en" class="ilng"><span class="embold">英式</span></label>
+
+		<input type="radio" class="ilng" name="ilng" id="ilng_chd" value="chd" onclick="noteIn()" checked="checked"
+		onkeypress="noteIn()" /><label for="ilng_chd" class="ilng"><span class="embold">コード風</span></label>
+		</li>
+	</ul>
+
+</div>
+
+
+<div class="info">
+	<span  size="3" id="pressed">0</span><sub>鍵盤</sub>
+	<span size="3" id="detected">0</span><sub>候補</sub>
+</div>
+
+<div id="analysed_chord">
+<p class="chord_message">解析結果がここに表示されます。</p>
+</div>
+
+<p style="clear: both;" />
+
+
+<!--遷移時にjavascriptが変数保持しないので、hiddenなhtmlを変数代わりに使うことにする。-->
+<input type="text" id="fixToggleMemory" value="0" style="display: none;" />
+<input type="text" id="fixedLineMemory" value="" style="display: none;" />
+<input type="text" id="lineAppendFlagMemory" value="0" style="display: none;" />
+
+
+
+</div>
+
+
+
+<script type="text/javascript" src="./jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="./jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="./jquery.animate-shadow.js"></script>
+<script type="text/javascript" src="./jquery.animate-textshadow.js"></script>
+
+<script type="text/javascript">
+<!--
+
+
+//汎用関数。投げられたオブジェクトが数値っぽいか判定するよ。
+function isNumeral(a) { return +a == a }
+
+
+//汎用関数。ブラウザ判定。
+function whBrowser() {
+	var userAgent = window.navigator.userAgent.toLowerCase();
+
+	if (userAgent.indexOf('opera') != -1) {
+		return 'opera';
+	}else if (userAgent.indexOf('msie') != -1) {
+		return 'ie';
+	}else if (userAgent.indexOf('chrome') != -1) {
+		return 'chrome';
+	}else if (userAgent.indexOf('safari') != -1) {
+		return 'safari';
+	}else if (userAgent.indexOf('gecko') != -1) {
+		return 'gecko';
+	}else {
+		return false;
+	}
+}
+
+
+//汎用関数。マウス位置取得。
+document.onmousemove = myXY;
+function myXY(myEvt){
+	if(document.all) myEvt = event;
+	cursolX = eval(myEvt.clientX);
+	cursolY = eval(myEvt.clientY);
+}
+
+//オンロードスクリプトをここに
+function startup() {
+	//ロード時に全クリア発動（firefox対策）
+	noteIn('clear');
+}
+
+
+
+
+//リリースボタンの影 jQuery
+$("#release_keys").hover (
+	function() {
+		$(this).stop().animate( { textShadow: "1px 1px 4px rgba(0, 0, 0, 0.77)" }, 500 );
+	},function() {
+		$(this).stop().animate( { textShadow: "1px 1px 4px rgba(0, 0, 0, 0.10)" }, 500 );
+	}
+);
+$("#release_keys").mousedown(
+	function() {
+		//沈み込み
+		$(this).stop().animate( { top: "+=2px", left: "+=2px", textShadow: "0px 0px 3px rgba(0, 0, 0, 0.77)" }, 100 );
+		$("#keyboards").animate({ left: 20 }, 200);
+	}).mouseup(function() {
+		$(this).stop().animate( { top: "-=2px", left: "-=2px", textShadow: "1px 1px 4px rgba(0, 0, 0, 0.70)" }, 100 );
+		//ぶるぶるぶるっ 後半遅くしてくとぽく見えるみたい
+		$("#keyboards").animate({ left: -10 }, 38).animate({ left: 20 }, 38).animate({ left: -15 }, 38).animate({ left: 10 }, 49).animate({ left: -5 }, 79).animate({ left: 0 }, 99);
+	}
+);
+
+
+
+
+//【解析関連】データ受け取りと、他のサブルーチンの呼び出し
+function noteIn(action) {
+
+	//全鍵盤数
+	allKeys = 24;
+	allSKeys = 48;
+
+	//解析の設定チェックボックスよみこむ
+	symbolicChord = document.getElementById('symbolic_chord').checked;
+	bassAnalyse = document.getElementById('bass_note').checked;
+	guessNote = document.getElementById('note_Guess').checked;
+	showInterval = document.getElementById('interval_analyse').checked;
+
+
+	//インターバラーの言語設定も読んでくる
+	if (showInterval) {
+		//インターバラーがONのときだけ言語設定表示 jQuery
+		$('#int_lang_options').animate({opacity: 1}, "normal");
+		//document.getElementById('int_lang_options').style.display = "block";
+
+		var intervalLang = document.getElementsByName('ilng');
+		for ( var i = 0, len = intervalLang.length; i < len; i++ ) {
+			if ( intervalLang[i].checked ) { iLang = intervalLang[i].value; }
+		}
+	}else {
+		//jQuery
+		$('#int_lang_options').animate({opacity: 0}, "slow");
+		//document.getElementById('int_lang_options').style.display = "none";
+	}
+
+
+	//フラット系とかの設定も読んでくる
+	var fsbState = document.getElementsByName('fsb');
+	for ( var i = 0, len = fsbState.length; i < len; i++ ) {
+		if ( fsbState[i].checked ) { fsb = fsbState[i].value; }
+	}
+
+
+	//キーの発音状態
+	if (action == "clear") {
+		//鍵盤押下フラグを初期化 #allKeysは鍵盤数のスカラ
+		notes =new Array(allKeys);
+
+		//押してる鍵盤のチェックを全部外す
+		var keyState = document.getElementsByName('keys');
+		for ( var i = 0, len = keyState.length; i < len; i++ ) { keyState[i].checked = false; }
+
+		//コードリストの固定を解除
+		unfreezeChordLines();
+
+		//鍵盤の色付け結果をクリア
+		indicateRelease();
+
+		//新しく生成される結果も固定化しないように
+		document.getElementById('fixToggleMemory').value = 0;
+
+	}else {
+		//どのキーが発音してるか調べる
+		notes = new Array(
+			document.getElementById('c').checked,
+			document.getElementById('cis').checked,
+			document.getElementById('d').checked,
+			document.getElementById('dis').checked,
+			document.getElementById('e').checked,
+			document.getElementById('f').checked,
+			document.getElementById('fis').checked,
+			document.getElementById('g').checked,
+			document.getElementById('gis').checked,
+			document.getElementById('a').checked,
+			document.getElementById('b').checked,
+			document.getElementById('h').checked,
+			document.getElementById('c2').checked,
+			document.getElementById('cis2').checked,
+			document.getElementById('d2').checked,
+			document.getElementById('dis2').checked,
+			document.getElementById('e2').checked,
+			document.getElementById('f2').checked,
+			document.getElementById('fis2').checked,
+			document.getElementById('g2').checked,
+			document.getElementById('gis2').checked,
+			document.getElementById('a2').checked,
+			document.getElementById('b2').checked,
+			document.getElementById('h2').checked
+		);
+	}
+
+	//何和音なのか数えとく
+	noteNumber = 0;
+	noteNumberFull = 0;
+	for ( var i = 0; i < 12; i++) {
+		if ( notes[i] || notes[i+12] ) { noteNumber++; }
+	}
+	for ( var i = 0; i < allKeys; i++) {
+		if ( notes[i] ) { noteNumberFull++; }
+	}
+
+	//変更前の値。あとでつかう。エイリアスにはならないのかしら。
+	pnoteNumber = noteNumber;
+
+
+	//鍵盤を下から順に走査して、最低音を検出する。
+	var flag = 1;
+	for ( var i = 0; i < allKeys; i++ ) {
+		if ( flag && notes[i] ) {
+			flag = 0;
+			bassNote = i;
+		}
+	}
+
+
+	//鍵盤スタイルをdhtml的にいろいろと
+	keyboardStyling();
+
+
+	if (noteNumber) {
+		//2オクターブの共通押下分をサマライズする
+		octaveOperate();
+	}
+
+	//（別ルーチンで）コード解析して、出力サマリを変数に格納
+	var alanyseResult = note2chord(noteNumber);
+
+	//結果をもとにあとの処理を変更
+	if ( alanyseResult == true || document.getElementById('fixToggleMemory').value == "1" ) {
+		//有効なコードを検出してたら
+
+		//ブラウザアラート非表示 jQuery
+		$("#chromealert").fadeOut("normal");
+		$("#foxalert").fadeOut("normal");
+		$("#iealert").fadeOut("normal");
+
+
+		//すべてのiを正規化してjに代入
+		for (var k = 0, len = iArray.length; k < len; k++) {
+			jArray[k] = iArray[k]%12;
+		}
+
+		if (symbolicChord) {
+			//シンボリックコードに変換するとき
+			rootSymbol = "□";
+			bassSymbol = "◇";
+			symbolizeChord();
+		}else {
+			//全部消すのとき
+			rootSymbol = "R";
+			bassSymbol = "Q";
+		}
+
+		//出力ルーチンへ
+		outputChord(noteNumber);
+		var AYCFlag = 1;
+
+	}else if (action == "clear"){
+		//鍵盤リリースのとき
+		AllYourChordN = "<p class='chord_message'>解析結果がここに表示されます。</p>";
+		document.getElementById("detected").innerHTML = "0";
+
+	}else if (alanyseResult == "none"){
+		//発音数の規格内でも名前のつかないコードだけだったらメッセージ
+		AllYourChordN = "<p class='chord_message'>辞書にない和音です。</p>";
+		document.getElementById("detected").innerHTML = "0";
+
+	}else if (alanyseResult == "tacet"){
+		//発音数零
+		AllYourChordN = "<p class='chord_message' title='Cage'><big>tacet.</big></p>";
+		document.getElementById("pressed").innerHTML = "0";
+		document.getElementById("detected").innerHTML = "N";
+
+	}else {
+		//発音数が規格外なら無効としてN.C.
+		AllYourChordN = "<p class='chord_message' title='no chord'><big>N/C</big></p>";
+		document.getElementById("pressed").innerHTML = "N";
+		document.getElementById("detected").innerHTML = "N";
+
+	}
+
+	//書き換え内容にあわせてリスト伸縮 jQ
+	if ( !AYCFlag ) { animatedChordListUpdater(AllYourChordN); }
+
+	if (noteNumber == 0) {
+		document.getElementById("pressed").innerHTML = "0";
+	}else {
+		document.getElementById("pressed").innerHTML = noteNumber;
+		document.getElementById("detected").innerHTML = chordType.length;
+	}
+}
+
+//【解析関連】鍵盤スタイル関連dhtml
+function keyboardStyling() {
+	document.getElementById("body").style.display = "none";
+
+	//flat-sharpのラベル表示切り替え
+	{
+		var s = document.getElementsByName("key_sharp");
+		var sa = document.getElementsByName("key_sharp_alt");
+		var f = document.getElementsByName("key_flat");
+		var fa = document.getElementsByName("key_flat_alt");
+		var n = document.getElementsByName("key_natural");
+		fsbLabels = document.getElementsByName("label_fsb");
+
+		var bothRadio = document.getElementById("both_chord");
+		var both2Radio = document.getElementById("both2_chord");
+		var innocentRadio = document.getElementById("innocent_chord");
+		var bothLabel = document.getElementById("both_label");
+		var both2Label = document.getElementById("both2_label");
+		var innocentLabel = document.getElementById("innocent_label");
+
+		//全部のラジオボタンの色を一旦戻す
+		for ( var q = 0, len = fsbLabels.length; q < len; q++ ) {
+			fsbLabels[q].className = fsbLabels[q].className.replace(/selected/g,"");
+		}
+
+		if (fsb == "sharp") {
+			//ラジオボタン色付け
+			fsbLabels[0].className += " selected";
+
+			//bothの機能を変更
+			innocentRadio.value = "none_alt";
+
+			bothRadio.style.display = "none";
+			bothLabel.style.display = "none";
+			both2Radio.style.display = "inline";
+			both2Label.style.display = "inline";
+			both2Label.innerHTML = "全部出す";
+
+			for ( var i = 0, len = f.length; i < len; i++ ) {
+				sa[i].className = sa[i].className.replace(/(hidden|nodisp)/g,"");
+				fa[i].className = fa[i].className.replace(/nodisp/g,"");
+				fa[i].className += " hidden";
+				s[i].className += " hidden nodisp";
+				f[i].className += " hidden nodisp";
+
+			} for ( var i = 0, len = n.length; i < len; i++ ) {
+				n[i].className = n[i].className.replace(/hidden/g,"");
+			}
+
+		}else if (fsb == "flat") {
+			fsbLabels[1].className += " selected";
+			innocentRadio.value = "none";
+
+			both2Radio.style.display = "none";
+			both2Label.style.display = "none";
+			bothRadio.style.display = "inline";
+			bothLabel.style.display = "inline";
+			bothLabel.innerHTML = "全部出す";
+
+			for ( var i = 0, len = s.length; i < len; i++ ) {
+				f[i].className = f[i].className.replace(/(hidden|nodisp)/g,"");
+				s[i].className = s[i].className.replace(/nodisp/g,"");
+				s[i].className += " hidden";
+				sa[i].className += " hidden nodisp";
+				fa[i].className += " hidden nodisp";
+
+			} for ( var i = 0, len = n.length; i < len; i++ ) {
+				n[i].className = n[i].className.replace(/hidden/g,"");
+			}
+
+		}else if (fsb == "both") {
+			fsbLabels[2].className += " selected";
+			innocentRadio.value = "none";
+
+			bothRadio.style.display = "inline";
+			bothLabel.style.display = "inline";
+			bothLabel.innerHTML = "全部出すⅠ";
+			both2Radio.style.display = "inline";
+			both2Label.style.display = "inline";
+			both2Label.innerHTML = "Ⅱ";
+
+			for ( var i = 0, len = f.length; i < len; i++ ) {
+				s[i].className = s[i].className.replace(/(hidden|nodisp)/g,"");
+				f[i].className = f[i].className.replace(/(hidden|nodisp)/g,"");
+				sa[i].className += " hidden nodisp";
+				fa[i].className += " hidden nodisp";
+
+			} for ( var i = 0, len = n.length; i < len; i++ ) {
+				n[i].className = n[i].className.replace(/hidden/g,"");
+			}
+
+		}else if (fsb == "both_alt") {
+			fsbLabels[3].className += " selected";
+			innocentRadio.value = "none_alt";
+
+			bothRadio.style.display = "inline";
+			bothLabel.style.display = "inline";
+			bothLabel.innerHTML = "Ⅰ";
+			both2Radio.style.display = "inline";
+			both2Label.style.display = "inline";
+			both2Label.innerHTML = "全部出すⅡ";
+
+			for ( var i = 0, len = f.length; i < len; i++ ) {
+				sa[i].className = sa[i].className.replace(/(hidden|nodisp)/g,"");
+				fa[i].className = fa[i].className.replace(/(hidden|nodisp)/g,"");
+				s[i].className += " hidden nodisp";
+				f[i].className += " hidden nodisp";
+
+			} for ( var i = 0, len = n.length; i < len; i++ ) {
+				n[i].className = n[i].className.replace(/hidden/g,"");
+			}
+
+		}else if (fsb == "none") {
+			fsbLabels[4].className += " selected";
+			innocentRadio.value = "none_alt";
+
+			both2Radio.style.display = "none";
+			both2Label.style.display = "none";
+			bothRadio.style.display = "inline";
+			bothLabel.style.display = "inline";
+			bothLabel.innerHTML = "全部出す";
+
+			for ( var i = 0, len = f.length; i < len; i++ ) {
+				s[i].className = s[i].className.replace(/nodisp/g,"");
+				s[i].className += " hidden";
+				f[i].className = f[i].className.replace(/nodisp/g,"");
+				f[i].className += " hidden";
+				sa[i].className += "hidden  nodisp";
+				fa[i].className += " hidden nodisp";
+			}for ( var i = 0, len = n.length; i < len; i++ ) {
+				n[i].className += " hidden";
+			}
+
+		}else if (fsb == "none_alt") {
+			fsbLabels[4].className += " selected";
+			innocentRadio.value = "none";
+
+			bothRadio.style.display = "none";
+			bothLabel.style.display = "none";
+			both2Radio.style.display = "inline";
+			both2Label.style.display = "inline";
+			both2Label.innerHTML = "全部出す";
+
+			for ( var i = 0, len = f.length; i < len; i++ ) {
+				sa[i].className = s[i].className.replace(/nodisp/g,"");
+				sa[i].className += " hidden";
+				fa[i].className = f[i].className.replace(/nodisp/g,"");
+				fa[i].className += " hidden";
+				s[i].className += "hidden  nodisp";
+				f[i].className += " hidden nodisp";
+			}for ( var i = 0, len = n.length; i < len; i++ ) {
+				n[i].className += " hidden";
+			}
+		}
+	}
+
+
+	//発音ノートの色変え
+	for ( var i = 0; i < allKeys; i++) {
+
+		//変更対象要素のエイリアスをつくる
+		var myKey = document.getElementsByName("key_"+i);
+
+		for ( var j = 0, len = myKey.length; j < len; j++ ) {
+			if (bassAnalyse && pnoteNumber && i == bassNote && i < 12) {
+				//押下中かつ最低音
+				temp = myKey[j].className;
+				temp = temp.replace(/bass/g,"").replace(/playing/g,"").replace(/ +/g," ").replace(/ "/g,'"');
+				temp += " bass";
+				myKey[j].className = temp;
+			}else if ( notes[i] ) {
+				//押下中のキー
+				temp = myKey[j].className;
+				temp = temp.replace(/bass/g,"").replace(/playing/g,"").replace(/ +/g," ").replace(/ "/g,'"');
+				temp += " playing";
+				myKey[j].className = temp;
+			}else {
+				//発音してないキー
+				temp = myKey[j].className;
+				temp = temp.replace(/bass/g,"").replace(/playing/g,"").replace(/ +/g," ").replace(/ "/g,'"');
+				myKey[j].className = temp;
+			}
+		}
+	}
+
+
+	//凡例の「推測」「ベース」を消したりつけたり jQuery
+	//:before :after疑似要素のシャドウは直接animateできなかったので、親要素ごとopacityを操作している。
+	{
+		/*doubtLegends = document.getElementsByName("doubtlegend");
+		bassLegends = document.getElementsByName("basslegend");*/
+
+		if ( guessNote ) {
+			$(".legendLs").animate({'opacity': 1}, 'slow');
+			/*for (var i = 0, len = doubtLegends.length; i < len; i++) {
+				doubtLegends[i].className = doubtLegends[i].className.replace(/nodoubt/g,"");
+			}*/
+		}else {
+			$(".legendLs").animate({'opacity': 0}, 'slow');
+			/*for (var i = 0, len = doubtLegends.length; i < len; i++) {
+				doubtLegends[i].className = doubtLegends[i].className.replace(/nodoubt/g,"");
+				doubtLegends[i].className += " nodoubt";
+			}*/
+		}
+
+		if (bassAnalyse) {
+			$("#legendBs").animate({'opacity': 1}, 'slow');
+			/*for (var i = 0, len = bassLegends.length; i < len; i++) {
+				bassLegends[i].className = bassLegends[i].className.replace(/nodoubt/g,"");
+			}*/
+
+			//小鍵盤の低音部を表示する
+			$('.octave1').css("display", "");
+		}else {
+			$("#legendBs").animate({'opacity': 0}, 'slow');
+			/*for (var i = 0, len = bassLegends.length; i < len; i++) {
+				bassLegends[i].className = bassLegends[i].className.replace(/nodoubt/g,"");
+				bassLegends[i].className += " nodoubt";
+			}*/
+
+			//小鍵盤の低音部を非表示する
+			$('.octave1').css("display", "none");
+		}
+	}
+
+	document.getElementById("body").style.display = "block";
+}
+
+//【解析関連】同じ音がオクターブで重複してた場合の処理とか
+function octaveOperate() {
+	//オクターブをまたぐ押下は、いちどすべて半分より低い側の鍵盤に集約してしまう。
+	for ( var i = 0; i < 12; i++ ) {
+		if ( notes[i] || notes[i+12] ) {
+			notes[i] = 1;
+		}
+	}
+
+	//ベース音が存在し、かつ押下が2鍵以上で、かつベース音オクターブ上の押下がないとき
+	//コード検出用の押下リストからベース音を除き、押下数をひとつ下げる。
+	if ( bassAnalyse && bassNote < 12 && 1 < noteNumber && !notes[bassNote+12] ) {
+		notes[bassNote] = 0;
+		noteNumber--;
+	}
+}
+
+//【解析関連】【メイン】ノートの分布パターンからコード解析（鍵盤の押下があれば発動）
+function note2chord(sw) {
+
+	//基準音から何音までの平行移動を許可するか
+	//1オクターブ=12鍵なので、構造上、11で問題なし
+	var shiftLimit = 11;
+
+	//コード型が出力される変数（複数候補OK）の初期化
+	chordType = new Array();
+
+	//基準音のアレイ（複数候補用）
+	iArray = jArray = new Array();
+
+	//ゲスノートの親配列
+	doubter = new Array();
+
+
+	//六和音以上は新規のアルゴリズムもなし
+	if (sw > 6) {sw = 6;}
+	//発音ノート数で場合分け
+	switch (sw) {
+	//0-3和音までのコードネームは不規則で特別な場合も多いため、辞書を内部に組み込む。
+	//4和音以上では命名が規則的になるため、各テンションのフラグを立てていって、それを元に一括で名前を生成する。
+
+		case 0: {return "tacet";}
+
+		case 1: if (guessNote) {
+			for ( i = 0; i <= shiftLimit; i++ ) {
+				//Major
+				if ( notes[(i+0)%12] ) {
+					//Major検出
+					chordType.push("<span class='chord_operator'></span><span class='chord_doubt'>?</span>");
+					iArray.push(i);
+					doubter.push( [ (i+4)%12 ,  (i+7)%12 ] );
+
+					//minor検出
+					chordType.push("<span class='chord_operator'>m</span><span class='chord_doubt'>?</span>");
+					iArray.push(i);
+					doubter.push( [ (i+3)%12 , (i+7)%12 ] );
+
+
+					//6Major検出
+					chordType.push("<span class='chord_operator'></span><span class='chord_doubt'>?</span>");
+					iArray.push(i+5);
+					doubter.push( [ (i+5)%12 , (i+9)%12 ] );
+
+					//6minor検出
+					chordType.push("<span class='chord_operator'>m</span><span class='chord_doubt'>?</span>");
+					iArray.push(i+5);
+					doubter.push( [ (i+5)%12 , (i+8)%12 ] );
+
+
+					//46Major検出
+					chordType.push("<span class='chord_operator'></span><span class='chord_doubt'>?</span>");
+					iArray.push(i+8);
+					doubter.push( [ (i+3)%12 , (i+8)%12 ] );
+
+					//46minor検出
+					chordType.push("<span class='chord_operator'>m</span><span class='chord_doubt'>?</span>");
+					iArray.push(i+9);
+					doubter.push( [ (i+4)%12 , (i+9)%12 ] );
+
+					return(true);
+				}
+
+			}
+			return "none";
+		}else {return false;}
+
+		case 2: {
+			if (guessNote) {
+				for ( i = 0; i <= shiftLimit; i++ ) {
+					//?1と3でMajor == minor = (b5) = aug = (#5)
+					if ( notes[(i+0)%12] && notes[(i+4)%12] ) {
+						//Major検出
+						chordType.push("<span class='chord_operator'></span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+7)%12 ] );
+
+						//minor検出
+						chordType.push("<span class='chord_operator'>m</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+9);
+						doubter.push( [ (i+9)%12 ] );
+
+						//b5検出
+						chordType.push("<sup>(♭5)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+6)%12 ] );
+
+						//aug検出
+						chordType.push("<span class='chord_operator'>aug</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+8)%12 ] );
+
+						//(#5)検出
+						chordType.push("<sup>(♯5)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+8)%12 ] );
+
+						//aug検出
+						chordType.push("<span class='chord_operator'>aug</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+4);
+						doubter.push( [ (i+8)%12 ] );
+
+						//(#5)検出
+						chordType.push("<sup>(♯5)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+4);
+						doubter.push( [ (i+8)%12 ] );
+
+						//aug検出
+						chordType.push("<span class='chord_operator'>aug</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+8);
+						doubter.push( [ (i+8)%12 ] );
+
+						//(#5)検出
+						chordType.push("<sup>(♯5)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+8);
+						doubter.push( [ (i+8)%12 ] );
+
+						return true;
+					}
+
+					//?1とm3でminor == Major = dim = dim
+					if ( notes[(i+0)%12] && notes[(i+3)%12] ) {
+						//minor検出
+						chordType.push("<span class='chord_operator'>m</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+7)%12 ] );
+
+						//Major検出
+						chordType.push("<span class='chord_operator'></span><span class='chord_doubt'>?</span>");
+						iArray.push(i+8);
+						doubter.push( [ (i+8)%12 ] );
+
+						//dim検出
+						chordType.push("<span class='chord_operator'>dim</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+0);
+						doubter.push( [ (i+6)%12 ] );
+
+						//dim検出
+						chordType.push("<span class='chord_operator'>dim</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+9);
+						doubter.push( [ (i+9)%12 ] );
+
+						return true;
+					}
+
+					//?1と2で7thか(9) == (9)かsus4
+					if ( notes[(i+0)%12] && notes[(i+2)%12] ) {
+						//7検出
+						chordType.push("<span class='chord_interval'>7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+2);
+						doubter.push( [ (i+6)%12, (i+9)%12 ] );
+
+						//(9)検出
+						chordType.push("<sup>(9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+4)%12, (i+7)%12 ] );
+
+						//(9)検出
+						chordType.push("<sup>(9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+10);
+						doubter.push( [ (i+5)%12, (i+10)%12 ] );
+
+						//sus4検出
+						chordType.push("<span class='chord_operator'>sus</span><span class='chord_interval'>4</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+7);
+						doubter.push( [ (i+7)%12 ] );
+
+						//sus2検出
+						chordType.push("<span class='chord_operator'>sus</span><span class='chord_interval'>2</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+7)%12 ] );
+
+						return true;
+					}
+
+					//?1とb2でM7thかm(9)
+					if ( notes[(i+0)%12] && notes[(i+1)%12] ) {
+						//M7検出
+						chordType.push("<span class='chord_interval'>M7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+1);
+						doubter.push( [ (i+5)%12, (i+8)%12 ] );
+
+						//m(9)検出
+						chordType.push("<span class='chord_operator'>m</span><sup>(9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+10);
+						doubter.push( [ (i+5)%12, (i+10)%12 ] );
+
+						return true;
+					}
+
+					//?1とb5でdimか7
+					if ( notes[(i+0)%12] && notes[(i+6)%12] ) {
+						//dim検出
+						chordType.push("<span class='chord_operator'>dim</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+3)%12 ] );
+
+						//dim検出
+						chordType.push("<span class='chord_operator'>dim</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+6);
+						doubter.push( [ (i+9)%12 ] );
+
+						//7検出
+						chordType.push("<span class='chord_interval'>7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+8);
+						doubter.push( [ (i+3)%12, (i+8)%12 ] );
+
+						return true;
+					}
+				}
+			}
+
+			for ( i = 0; i <= shiftLimit; i++ ) {
+				//?1と5でMajorかminor
+				//1と5でomit3
+				if ( notes[(i+0)%12] && notes[(i+7)%12] ) {
+					//ind検出
+					chordType.push("<span class='chord_operator'>ind</span>");
+					iArray.push(i);
+					doubter.push( [  ] );
+
+					//omit3検出
+					chordType.push("<span class='chord_operator'>omit</span><span class='chord_interval'>3</span>");
+					iArray.push(i);
+					doubter.push( [  ] );
+
+					if ( guessNote ) {
+						//Major検出
+						chordType.push("<span class='chord_operator'></span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+4)%12 ] );
+
+						//minor検出
+						chordType.push("<span class='chord_operator'>m</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+3)%12 ] );
+
+						//sus4検出
+						chordType.push("<span class='chord_operator'>sus</span><span class='chord_interval'>4</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+5)%12 ] );
+
+						//sus2検出
+						chordType.push("<span class='chord_operator'>sus</span><span class='chord_interval'>2</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+2)%12 ] );
+					}
+
+					return true;
+				}
+			}
+
+			return "none";
+		}
+
+		case 3: {
+			for ( i = 0; i <= shiftLimit; i++ ) {
+				//Major
+				if ( notes[(i+0)%12] && notes[(i+4)%12] && notes[(i+7)%12] ) {
+					//Major検出
+					chordType.push("<span class='chord_operator'></span>");
+					iArray.push(i);
+					doubter.push( [  ] );
+
+					if ( guessNote ) {
+						//m7検出
+						chordType.push("<span class='chord_interval'>m7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+9);
+						doubter.push( [ (i+9)%12 ] );
+
+						//7検出
+						chordType.push("<span class='chord_interval'>7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+10)%12 ] );
+
+						//M7検出
+						chordType.push("<span class='chord_interval'>M7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+11)%12 ] );
+					}
+
+					return true;
+				}
+
+				//minor
+				if ( notes[(i+0)%12] && notes[(i+3)%12] && notes[(i+7)%12] ) {
+					//minor検出
+					chordType.push("<span class='chord_operator'>m</span>");
+					iArray.push(i);
+					doubter.push( [  ] );
+
+					if ( guessNote ) {
+						//M7検出
+						chordType.push("<span class='chord_interval'>M7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+8);
+						doubter.push( [ (i+8)%12 ] );
+
+						//m7検出
+						chordType.push("<span class='chord_interval'>m7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+10)%12 ] );
+
+						//mM7検出
+						chordType.push("<span class='chord_operator'>m</span><span class='chord_interval'>M7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+11)%12 ] );
+					}
+
+					return true;
+				}
+
+				//sus4 == sus2
+				if ( notes[(i+0)%12] && notes[(i+5)%12] && notes[(i+7)%12] ) {
+					//sus4検出
+					chordType.push("<span class='chord_operator'>sus</span><span class='chord_interval'>4</span>");
+					iArray.push(i);
+					doubter.push( [  ] );
+
+					//sus2検出
+					chordType.push("<span class='chord_operator'>sus</span><span class='chord_interval'>2</span>");
+					iArray.push(i+5);
+					doubter.push( [  ] );
+
+					if ( guessNote ) {
+						//(9)検出
+						chordType.push("<sup>(9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+5);
+						doubter.push( [ (i+9)%12 ] );
+
+						//m(9)検出
+						chordType.push("<span class='chord_operator'>m</span><sup>(9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+5);
+						doubter.push( [ (i+8)%12 ] );
+
+						//7sus4検出
+						chordType.push("<span class='chord_interval'>7</span><span class='chord_operator'>sus</span><span class='chord_interval'>4</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+10)%12 ] );
+
+						//sus4(9)検出
+						chordType.push("<span class='chord_operator'>sus</span><span class='chord_interval'>4</span><sup>(9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+5);
+						doubter.push( [ (i+10)%12 ] );
+
+						//M7sus4検出
+						chordType.push("<span class='chord_interval'>M7</span><span class='chord_operator'>sus</span><span class='chord_interval'>4</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+11)%12 ] );
+					}
+
+					return true;
+				}
+
+				//sus4(b5)
+				if ( notes[(i+0)%12] && notes[(i+5)%12] && notes[(i+6)%12] ) {
+					//sus4(b5)検出
+					chordType.push("<span class='chord_operator'>sus</span><span class='chord_interval'>4</span><sup>(♭5)</sup>");
+					iArray.push(i);
+					doubter.push( [  ] );
+
+					if ( guessNote ) {
+						//(b9)検出
+						chordType.push("<sup>(♭9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+5);
+						doubter.push( [ (i+9)%12 ] );
+
+						//m(b9)検出
+						chordType.push("<span class='chord_operator'>m</span><sup>(♭9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+5);
+						doubter.push( [ (i+8)%12 ] );
+
+						//sus4(b9)検出
+						chordType.push("<span class='chord_operator'>sus</span><span class='chord_interval'>4</span><sup>(♭9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+5);
+						doubter.push( [ (i+10)%12 ] );
+
+						//dim(11)検出
+						chordType.push("<span class='chord_operator'>dim</span><sup>(11)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+3)%12 ] );
+					}
+
+					return true;
+				}
+
+				//dim
+				//?7, dim7, m7(b5)
+				if ( notes[(i+0)%12] && notes[(i+3)%12] && notes[(i+6)%12] ) {
+					//dim検出
+					chordType.push("<span class='chord_operator'>dim</span>");
+					iArray.push(i);
+					doubter.push( [  ] );
+
+					if ( guessNote ) {
+						//dim7検出
+						chordType.push("<span class='chord_operator'>dim</span><span class='chord_interval'>7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+9)%12 ] );
+
+						//dim7検出
+						chordType.push("<span class='chord_operator'>dim</span><span class='chord_interval'>7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+3);
+						doubter.push( [ (i+9)%12 ] );
+
+						//dim7検出
+						chordType.push("<span class='chord_operator'>dim</span><span class='chord_interval'>7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+6);
+						doubter.push( [ (i+9)%12 ] );
+
+						//dim7検出
+						chordType.push("<span class='chord_operator'>dim</span><span class='chord_interval'>7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+9);
+						doubter.push( [ (i+9)%12 ] );
+
+						//m7(b5)検出
+						chordType.push("<span class='chord_operator'>m</span><span class='chord_interval'>7</span><sup>(♭5)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+10)%12 ] );
+
+						//?7検出
+						chordType.push("<span class='chord_interval'>7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+8);
+						doubter.push( [ (i+8)%12 ] );
+					}
+
+					return true;
+				}
+
+				//?7 ?m7
+				if ( notes[(i+0)%12] && notes[(i+7)%12] && notes[(i+10)%12] ) {
+					if ( guessNote ) {
+						//?7検出
+						chordType.push("<span class='chord_interval'>7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+4)%12 ] );
+
+						//?m7検出
+						chordType.push("<span class='chord_operator'>m</span><span class='chord_interval'>7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+3)%12 ] );
+
+						//?7sus4検出
+						chordType.push("<span class='chord_interval'>7</span><span class='chord_operator'>sus</span><span class='chord_interval'>4</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+5)%12 ] );
+
+						//?7sus2検出
+						chordType.push("<span class='chord_interval'>7</span><span class='chord_operator'>sus</span><span class='chord_interval'>2</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+2)%12 ] );
+
+						//?m(11)検出
+						chordType.push("<span class='chord_operator'>m</span><sup>(11)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+7);
+						doubter.push( [ (i+2)%12 ] );
+
+					}else {return "none";}
+
+					return true;
+				}
+
+				//?M7 ?mM7
+				if ( notes[(i+0)%12] && notes[(i+7)%12] && notes[(i+11)%12] ) {
+					if ( guessNote ) {
+						//?M7検出
+						chordType.push("<span class='chord_interval'>M7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+4)%12 ] );
+
+						//?mM7検出
+						chordType.push("<span class='chord_operator'>m</span><span class='chord_interval'>M7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+3)%12 ] );
+
+						//?M7sus4検出
+						chordType.push("<span class='chord_interval'>M7</span><span class='chord_operator'>sus</span><span class='chord_interval'>4</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+5)%12 ] );
+
+						//?7sus2検出
+						chordType.push("<span class='chord_interval'>M7</span><span class='chord_operator'>sus</span><span class='chord_interval'>2</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+2)%12 ] );
+
+						//?(11)検出
+						chordType.push("<sup>(11)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+7);
+						doubter.push( [ (i+2)%12 ] );
+
+					}else {return "none";}
+
+					return true;
+				}
+
+				//?7
+				if ( notes[(i+0)%12] && notes[(i+4)%12] && notes[(i+10)%12] ) {
+					if ( guessNote ) {
+						//?7検出
+						chordType.push("<span class='chord_interval'>7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+7)%12 ] );
+
+						//?7(b5)検出
+						chordType.push("<span class='chord_interval'>7</span><sup>(♭5)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+6)%12 ] );
+
+						//?aug7検出
+						chordType.push("<span class='chord_operator'>aug</span><span class='chord_interval'>7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?dim(b6)検出
+						chordType.push("<span class='chord_operator'>dim</span><span class='chord_interval'>♭6</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+4);
+						doubter.push( [ (i+7)%12 ] );
+
+						//?b6(b5)検出
+						chordType.push("<span class='chord_interval'>♭6</span><sup>(♭5)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+4);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?M7sus4検出
+						chordType.push("<span class='chord_interval'>M7</span><span class='chord_operator'>sus</span><span class='chord_interval'>4</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+5);
+						doubter.push( [ (i+5)%12 ] );
+
+						//?aug(9)検出
+						chordType.push("<span class='chord_operator'>aug</span><sup>(9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+8);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?m(b9)検出
+						chordType.push("<span class='chord_operator'>m</span><sup>(♭9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+9);
+						doubter.push( [ (i+9)%12 ] );
+
+					}else {return "none";}
+
+					return true;
+				}
+
+				//?mM7
+				if ( notes[(i+0)%12] && notes[(i+3)%12] && notes[(i+11)%12] ) {
+					if ( guessNote ) {
+						//?mM7検出
+						chordType.push("<span class='chord_operator'>m</span><span class='chord_interval'>M7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+7)%12 ] );
+
+						//?dimM7検出
+						chordType.push("<span class='chord_operator'>dim</span><span class='chord_interval'>M7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+6)%12 ] );
+
+						//?(b9)検出
+						chordType.push("<sup>(♭9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+11);
+						doubter.push( [ (i+6)%12 ] );
+
+						//?dim(9)検出
+						chordType.push("<span class='chord_operator'>dim</span><sup>(9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+9);
+						doubter.push( [ (i+9)%12 ] );
+
+						//?mM7(#5)検出
+						chordType.push("<span class='chord_operator'>m</span><span class='chord_interval'>M7</span><sup>(#5)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?(#9)検出
+						chordType.push("<sup>(#9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+8);
+						doubter.push( [ (i+8)%12 ] );
+
+					}else {return "none";}
+
+					return true;
+				}
+
+				//?M7 == m(9)
+				if ( notes[(i+0)%12] && notes[(i+4)%12] && notes[(i+11)%12] ) {
+					if ( guessNote ) {
+						//?M7検出
+						chordType.push("<span class='chord_interval'>M7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+7)%12 ] );
+
+						//?m(9)検出
+						chordType.push("<span class='chord_operator'>m</span><sup>(9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+9);
+						doubter.push( [ (i+9)%12 ] );
+
+						//?M7(b5)検出
+						chordType.push("<span class='chord_interval'>M7</span><sup>(b5)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+6)%12 ] );
+
+						//?augM7検出
+						chordType.push("<span class='chord_operator'>aug</span><span class='chord_interval'>M7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?b6検出
+						chordType.push("<span class='chord_interval'>♭6</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+4);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?mb6検出
+						chordType.push("<span class='chord_operator'>m</span><span class='chord_interval'>♭6</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+4);
+						doubter.push( [ (i+7)%12 ] );
+
+					}else {return "none";}
+
+					return true;
+				}
+
+				//?m7 == (9)
+				if ( notes[(i+0)%12] && notes[(i+3)%12] && notes[(i+10)%12] ) {
+					if ( guessNote ) {
+						//?m7検出
+						chordType.push("<span class='chord_interval'>m7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+7)%12 ] );
+
+						//?m7(#5)検出
+						chordType.push("<span class='chord_interval'>m7</span><sup>(♯5)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?(9)検出
+						chordType.push("<sup>(9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+8);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?m7(b5)検出
+						chordType.push("<span class='chord_interval'>m7</span><sup>(♭5)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+6)%12 ] );
+
+						//?6検出
+						chordType.push("<span class='chord_interval'>6</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+3);
+						doubter.push( [ (i+7)%12 ] );
+
+						//?m6検出
+						chordType.push("<span class='chord_operator'>m</span><span class='chord_interval'>6</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+3);
+						doubter.push( [ (i+6)%12 ] );
+
+						//?7sus4検出
+						chordType.push("<span class='chord_interval'>7</span><span class='chord_operator'>sus</span><span class='chord_interval'>4</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+5);
+						doubter.push( [ (i+5)%12 ] );
+
+					}else {return "none";}
+
+					return true;
+				}
+
+				//?(9) == m(11)
+				if ( notes[(i+0)%12] && notes[(i+2)%12] && notes[(i+4)%12] ) {
+					if ( guessNote ) {
+						//?(9)検出
+						chordType.push("<sup>(9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+7)%12 ] );
+
+						//?7sus2検出
+						chordType.push("<span class='chord_interval'>7</span><span class='chord_operator'>sus</span><span class='chord_interval'>2</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+2);
+						doubter.push( [ (i+9)%12 ] );
+
+						//?m(11)検出
+						chordType.push("<span class='chord_operator'>m</span><sup>(11)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+9);
+						doubter.push( [ (i+9)%12 ] );
+
+						//?aug(9)検出
+						chordType.push("<span class='chord_operator'>aug</span><sup>(9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?aug7検出
+						chordType.push("<span class='chord_operator'>aug</span><span class='chord_interval'>7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+4);
+						doubter.push( [ (i+8)%12 ] );
+
+					}else {return "none";}
+
+					return true;
+				}
+
+				//?m(9) == (#11)
+				if ( notes[(i+0)%12] && notes[(i+2)%12] && notes[(i+3)%12] ) {
+					if ( guessNote ) {
+						//?m(9)検出
+						chordType.push("<span class='chord_operator'>m</span><sup>(9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+7)%12 ] );
+
+						//?(#11)検出
+						chordType.push("<sup>(♯11)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+8);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?dim(9)検出
+						chordType.push("<span class='chord_operator'>dim</span><sup>(9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+6)%12 ] );
+
+						//?dim(11)検出
+						chordType.push("<span class='chord_operator'>dim</span><sup>(11)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+9);
+						doubter.push( [ (i+9)%12 ] );
+
+					}else {return "none";}
+
+					return true;
+				}
+
+				//?m(b9) == (11)
+				if ( notes[(i+0)%12] && notes[(i+1)%12] && notes[(i+3)%12] ) {
+					if ( guessNote ) {
+						//?m(b9)検出
+						chordType.push("<span class='chord_operator'>m</span><sup>(♭9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+7)%12 ] );
+
+						//?(11)検出
+						chordType.push("<sup>(11)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+8);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?M7sus2検出
+						chordType.push("<span class='chord_interval'>M7</span><span class='chord_operator'>sus</span><span class='chord_interval'>2</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+1);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?dim(b9)検出
+						chordType.push("<span class='chord_operator'>dim</span><sup>(♭9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+6)%12 ] );
+
+					}else {return "none";}
+
+					return true;
+				}
+
+				//連続3半音
+				if ( notes[(i+0)%12] && notes[(i+1)%12] && notes[(i+2)%12] ) {
+					if ( guessNote ) {
+						//?7(14)検出
+						chordType.push("<span class='chord_interval'>7</span><sup>(14)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+2);
+						doubter.push( [ (i+6)%12, (i+9)%12 ] );
+
+						//?M7(b9)検出
+						chordType.push("<span class='chord_interval'>M7</span><sup>(♭9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+1);
+						doubter.push( [ (i+5)%12, (i+8)%12 ] );
+
+						//?sus2(b9)検出
+						chordType.push("<span class='chord_operator'>sus</span><span class='chord_interval'>2</span><sup>(♭9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+7)%12 ] );
+
+						//?sus4(#11)検出
+						chordType.push("<span class='chord_operator'>sus</span><span class='chord_interval'>4</span><sup>(♯11)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+7);
+						doubter.push( [ (i+7)%12 ] );
+
+					}else {return "none";}
+
+					return true;
+				}
+
+				//aug = (#5) 展開3種
+				if ( notes[(i+0)%12] && notes[(i+4)%12] && notes[(i+8)%12] ) {
+					//aug検出
+					chordType.push("<span class='chord_operator'>aug</span>");
+					iArray.push(i);
+					doubter.push( [  ] );
+
+					//(#5)検出
+					chordType.push("<sup>(♯5)</sup>");
+					iArray.push(i);
+					doubter.push( [  ] );
+
+					//aug検出
+					chordType.push("<span class='chord_operator'>aug</span>");
+					iArray.push(i+4);
+					doubter.push( [  ] );
+
+					//(#5)検出
+					chordType.push("<sup>(♯5)</sup>");
+					iArray.push(i+4);
+					doubter.push( [  ] );
+
+					//aug検出
+					chordType.push("<span class='chord_operator'>aug</span>");
+					iArray.push(i+8);
+					doubter.push( [  ] );
+
+					//(#5)検出
+					chordType.push("<sup>(♯5)</sup>");
+					iArray.push(i+8);
+					doubter.push( [  ] );
+
+					if (guessNote) {
+						//?mM7検出
+						chordType.push("<span class='chord_operator'>m</span><span class='chord_interval'>M7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+9);
+						doubter.push( [ (i+9)%12 ] );
+
+						//?aug6検出
+						chordType.push("<span class='chord_operator'>aug</span><span class='chord_interval'>6</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+9)%12 ] );
+
+						//?aug7検出
+						chordType.push("<span class='chord_operator'>aug</span><span class='chord_interval'>7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+10)%12 ] );
+
+						//?augM7検出
+						chordType.push("<span class='chord_operator'>aug</span><span class='chord_interval'>M7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+11)%12 ] );
+
+						//?b6検出
+						chordType.push("<span class='chord_interval'>♭6</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+4);
+						doubter.push( [ (i+11)%12 ] );
+
+					}
+
+					return true;
+				}
+
+				//(b5)
+				if ( notes[(i+0)%12] && notes[(i+4)%12] && notes[(i+6)%12] ) {
+					//(b5)検出
+					chordType.push("<sup>(♭5)</sup>");
+					iArray.push(i);
+					doubter.push( [  ] );
+
+					if (guessNote) {
+						//?m7(b5)検出
+						chordType.push("<span class='chord_operator'>m</span><span class='chord_interval'>7</span><sup>(♭5)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+6);
+						doubter.push( [ (i+9)%12 ] );
+
+						//?m6検出
+						chordType.push("<span class='chord_operator'>m</span><span class='chord_interval'>6</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+9);
+						doubter.push( [ (i+9)%12 ] );
+
+						//?(#11)検出
+						chordType.push("<sup>(♯11)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i);
+						doubter.push( [ (i+7)%12 ] );
+
+						//?aug(9)検出
+						chordType.push("<span class='chord_operator'>aug</span><sup>(9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+4);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?aug7検出
+						chordType.push("<span class='chord_operator'>aug</span><span class='chord_interval'>7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+8);
+						doubter.push( [ (i+8)%12 ] );
+					}
+
+					return true;
+				}
+
+				//?(#9)
+				if ( notes[(i+0)%12] && notes[(i+3)%12] && notes[(i+4)%12] ) {
+					if ( guessNote ) {
+						//?(#9)検出
+						chordType.push("<sup>(#9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+0);
+						doubter.push( [ (i+7)%12 ] );
+
+						//?aug(#9)検出
+						chordType.push("<span class='chord_operator'>aug</span><sup>(#9)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+0);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?augM7検出
+						chordType.push("<span class='chord_operator'>aug</span><span class='chord_interval'>M7</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+4);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?mM7(#9)検出
+						chordType.push("<span class='chord_operator'>m</span><span class='chord_interval'>M7</span><sup>(♯5)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+4);
+						doubter.push( [ (i+7)%12 ] );
+
+						//?7(14)検出
+						chordType.push("<span class='chord_interval'>7</span><sup>(14)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+5);
+						doubter.push( [ (i+5)%12, (i+9)%12 ] );
+
+						//?b6検出
+						chordType.push("<span class='chord_interval'>♭6</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+8);
+						doubter.push( [ (i+8)%12 ] );
+
+						//?m(#11)検出
+						chordType.push("<span class='chord_operator'>m</span><sup>(♯11)</sup><span class='chord_doubt'>?</span>");
+						iArray.push(i+9);
+						doubter.push( [ (i+9)%12 ] );
+
+
+					}else {return "none";}
+
+					return true;
+				}
+
+				//?M7sus4
+				if ( notes[(i+0)%12] && notes[(i+6)%12] && notes[(i+7)%12] ) {
+					if ( guessNote ) {
+						//?M7sus4検出
+						chordType.push("<span class='chord_interval'>M7</span><span class='chord_operator'>sus</span><span class='chord_interval'>4</span><span class='chord_doubt'>?</span>");
+						iArray.push(i+7);
+						doubter.push( [ (i+2)%12 ] );
+
+					}else {return "none";}
+
+					return true;
+				}
+			}
+			return "none";
+		}
+
+		case 4: {
+			//有効なコードを検出できたかどうか、ループの外から監視。さいごにreturnの引数になる。
+			returner = false;
+			for ( i = 0; i <= shiftLimit; i++ ) {
+				//ノート解析初期化
+				chordNameAnalyser("initialize");
+
+				//ノート解析
+				if ( notes[(i+0)%12] && notes[(i+7)%12] ) {
+					if ( notes[(i+4)%12] ) {
+						analyseMajor = 1;
+
+						if ( notes[(i+1)%12] ) {
+							analyseDim9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+2)%12] ) {
+							analyse9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+3)%12] ) {
+							analyseAug9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+5)%12] ) {
+							analyse11 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+6)%12] ) {
+							analyseAug11 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+8)%12] ) {
+							analyseDim13 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+9)%12] ) {
+							analyse13 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+							analyseEC = 1;
+						}
+					}else if ( notes[(i+3)%12] ) {
+						analyseMinor = 1;
+
+						if ( notes[(i+1)%12] ) {
+							analyseDim9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+2)%12] ) {
+							analyse9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+5)%12] ) {
+							analyse11 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+6)%12] ) {
+							analyseAug11 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+8)%12] ) {
+							analyseDim13 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+9)%12] ) {
+							analyse13 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+							analyseEC = 1;
+						}
+					}else if ( notes[(i+5)%12] ) {
+						analyseSus4 = 1;
+
+						if ( notes[(i+1)%12] ) {
+							analyseDim9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+2)%12] ) {
+							analyse9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+6)%12] ) {
+							analyseAug11 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+8)%12] ) {
+							analyseDim13 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+9)%12] ) {
+							analyse13 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+							analyseEC = 1;
+						}
+					}else if ( notes[(i+2)%12] ) {
+						analyseSus2 = 1;
+
+						if ( notes[(i+1)%12] ) {
+							analyseDim9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+6)%12] ) {
+							analyseAug11 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+8)%12] ) {
+							analyseDim13 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+9)%12] ) {
+							analyse13 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+							analyseEC = 1;
+						}
+					}else if ( guessNote ) {
+						if ( notes[(i+6)%12] && notes[(i+11)%12] ) {
+							analyseMajor = 1;
+							analyseM7 = 1;
+							analyseAug11 = 1;
+							analyseGuess = 1;
+							analyseEC = 1;
+							doubter.push( [ (i+4)%12 ] );
+						}else if ( notes[(i+10)%12] && notes[(i+11)%12] ) {
+							analyseMajor = 1;
+							analyse7 = 1;
+							analyse14 = 1;
+							analyseEC = 1;
+							analyseGuess = 1;
+							doubter.push( [ (i+4)%12 ] );
+						}else if ( notes[(i+1)%12] && notes[(i+11)%12] ) {
+							analyseMajor = 1;
+							analyseM7 = 1;
+							analyseDim9 = 1;
+							analyseEC = 1;
+							analyseGuess = 1;
+							doubter.push( [ (i+4)%12 ] );
+						}
+					}
+				}else if ( notes[(i+0)%12] && notes[(i+6)%12] ) {
+					analyseDim5 = 1;
+
+					if ( notes[(i+4)%12] ) {
+						analyseMajor = 1;
+
+						if ( notes[(i+1)%12] ) {
+							analyseDim9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+2)%12] ) {
+							analyse9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+3)%12] ) {
+							analyseAug9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+5)%12] ) {
+							analyse11 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+8)%12] ) {
+							analyseDim13 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+9)%12] ) {
+							analyse13 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+							analyseEC = 1;
+						}
+					}else if ( notes[(i+3)%12] ) {
+						analyseMinor = 1;
+
+						if ( notes[(i+1)%12] ) {
+							analyseDim9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+2)%12] ) {
+							analyse9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+5)%12] ) {
+							analyse11 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+8)%12] ) {
+							analyseDim13 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+9)%12] ) {
+							analyse13 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+							analyseEC = 1;
+						}
+					}
+				}else if ( notes[(i+0)%12] && notes[(i+8)%12] ) {
+					analyseAug5 = 1;
+
+					if ( notes[(i+4)%12] ) {
+						analyseMajor = 1;
+
+						if ( notes[(i+1)%12] ) {
+							analyseDim9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+2)%12] ) {
+							analyse9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+3)%12] ) {
+							analyseAug9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+5)%12] ) {
+							analyse11 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+9)%12] ) {
+							analyse13 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+							analyseEC = 1;
+						}
+					}else if ( notes[(i+3)%12] ) {
+						analyseMinor = 1;
+
+						if ( notes[(i+1)%12] ) {
+							analyseDim9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+2)%12] ) {
+							analyse9 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+5)%12] ) {
+							analyse11 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+9)%12] ) {
+							analyse13 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+							analyseEC = 1;
+						} if ( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+							analyseEC = 1;
+						}
+					}else if ( guessNote ) {
+						if ( notes[(i+10)%12] && notes[(i+11)%12] ) {
+							analyseMajor = 1;
+							analyseAug = 1;
+							analyse7 = 1;
+							analyse14 = 1;
+							analyseEC = 1;
+							analyseGuess = 1;
+							doubter.push( [ (i+4)%12 ] );
+						}
+					}
+				}else if ( guessNote ) {
+					if ( notes[(i+0)%12] && notes[(i+2)%12] && notes[(i+3)%12] && notes[(i+10)%12] ) {
+						analyseMinor = 1;
+						analyse7 = 1;
+						analyse9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+1)%12] && notes[(i+3)%12] && notes[(i+10)%12] ) {
+						analyseMinor = 1;
+						analyse7 = 1;
+						analyseDim9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+2)%12] && notes[(i+4)%12] && notes[(i+11)%12] ) {
+						analyseMajor = 1;
+						analyseM7 = 1;
+						analyse9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+2)%12] && notes[(i+3)%12] && notes[(i+11)%12] ) {
+						analyseMinor = 1;
+						analyseM7 = 1;
+						analyse9 = 1;
+						analyseDim9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+1)%12] && notes[(i+2)%12] && notes[(i+3)%12] ) {
+						analyseMinor = 1;
+						analyse7 = 1;
+						analyse9 = 1;
+						analyseDim9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12, (i+10)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+4)%12] && notes[(i+10)%12] && notes[(i+11)%12] ) {
+						analyseMajor = 1;
+						analyse7 = 1;
+						analyse14 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+3)%12] && notes[(i+10)%12] && notes[(i+11)%12] ) {
+						analyseMinor = 1;
+						analyse7 = 1;
+						analyse14 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+1)%12] && notes[(i+4)%12] && notes[(i+11)%12] ) {
+						analyseMajor = 1;
+						analyseM7 = 1;
+						analyseDim9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+1)%12] && notes[(i+3)%12] && notes[(i+11)%12] ) {
+						analyseMinor = 1;
+						analyseM7 = 1;
+						analyseDim9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+3)%12] && notes[(i+4)%12] && notes[(i+10)%12] ) {
+						analyseMajor = 1;
+						analyse7 = 1;
+						analyseAug9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+3)%12] && notes[(i+4)%12] && notes[(i+11)%12] ) {
+						analyseMajor = 1;
+						analyseM7 = 1;
+						analyseAug9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+3)%12] && notes[(i+5)%12] && notes[(i+11)%12] ) {
+						analyseMinor = 1;
+						analyseM7 = 1;
+						analyse11 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+2)%12] && notes[(i+3)%12] && notes[(i+4)%12] ) {
+						analyseMajor = 1;
+						analyse9 = 1;
+						analyseAug9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+4)%12] && notes[(i+5)%12] && notes[(i+11)%12] ) {
+						analyseMajor = 1;
+						analyseM7 = 1;
+						analyse11 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+3)%12] && notes[(i+5)%12] && notes[(i+6)%12] && notes[(i+7)%12] ) {
+						analyseMinor = 1;
+						analyse11 = 1;
+						analyseAug11 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+0)%12 ] );
+					}
+				}
+
+				//解析結果から名前を生成
+				if (analyseEC) { chordNameAnalyser("analyse"); }
+
+			}
+			return returner;
+		}
+
+		case 5: {
+			//有効なコードを検出できたかどうか、ループの外から監視。さいごにreturnの引数になる。
+			returner = false;
+			for ( i = 0; i <= shiftLimit; i++ ) {
+				//ノート解析初期化
+				chordNameAnalyser("initialize");
+
+				//ノート解析
+				if ( notes[(i+0)%12] && notes[(i+7)%12] ) {
+					if ( notes[(i+4)%12] ) {
+						analyseMajor = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+3)%12] ) {
+								analyseAug9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+6)%12] ) {
+								analyseAug11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+11)%12] ) {
+								analyse14 = 1;
+								analyseEC = 1;
+							}
+
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+3)%12] ) {
+								analyseAug9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+6)%12] ) {
+								analyseAug11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}else {
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+3)%12] ) {
+								analyseAug9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+6)%12] ) {
+								analyseAug11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}
+					}else if ( notes[(i+3)%12] ) {
+						analyseMinor = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+6)%12] ) {
+								analyseAug11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+11)%12] ) {
+								analyse14 = 1;
+								analyseEC = 1;
+							}
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+6)%12] ) {
+								analyseAug11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}else {
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+6)%12] ) {
+								analyseAug11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}
+					}else if ( notes[(i+5)%12] ) {
+						analyseSus4 = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+6)%12] ) {
+								analyseAug11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+11)%12] ) {
+								analyse14 = 1;
+								analyseEC = 1;
+							}
+
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+6)%12] ) {
+								analyseAug11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}else {
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+6)%12] ) {
+								analyseAug11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}
+					}else if ( notes[(i+2)%12] ) {
+						analyseSus2 = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+6)%12] ) {
+								analyseAug11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+11)%12] ) {
+								analyse14 = 1;
+								analyseEC = 1;
+							}
+
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+6)%12] ) {
+								analyseAug11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}else {
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+6)%12] ) {
+								analyseAug11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}
+					}else if ( guessNote ) {
+						if ( notes[(i+8)%12] && notes[(i+9)%12] && notes[(i+10)%12] ) {
+							analyseSus4 = 1;
+							analyse7 = 1;
+							analyse13 = 1;
+							analyseDim13 = 1;
+							analyseEC = 1;
+							analyseGuess = 1;
+							doubter.push( [ (i+5)%12 ] );
+						}else if ( notes[(i+1)%12] && notes[(i+10)%12] && notes[(i+11)%12] ) {
+							analyseMajor = 1;
+							analyse7 = 1;
+							analyse14 = 1;
+							analyseDim9 = 1;
+							analyseEC = 1;
+							analyseGuess = 1;
+							doubter.push( [ (i+4)%12 ] );
+						}
+					}
+				}else if ( notes[(i+0)%12] && notes[(i+6)%12] ) {
+					analyseDim5 = 1;
+
+					if ( notes[(i+4)%12] ) {
+						analyseMajor = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+3)%12] ) {
+								analyseAug9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+11)%12] ) {
+								analyse14 = 1;
+								analyseEC = 1;
+							}
+
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+3)%12] ) {
+								analyseAug9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}else {
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+3)%12] ) {
+								analyseAug9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}
+					}else if ( notes[(i+3)%12] ) {
+						analyseMinor = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+11)%12] ) {
+								analyse14 = 1;
+								analyseEC = 1;
+							}
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}else {
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+8)%12] ) {
+								analyseDim13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}
+					}
+				}else if ( notes[(i+0)%12] && notes[(i+8)%12] ) {
+					analyseAug5 = 1;
+
+					if ( notes[(i+4)%12] ) {
+						analyseMajor = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+3)%12] ) {
+								analyseAug9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+11)%12] ) {
+								analyse14 = 1;
+								analyseEC = 1;
+							}
+
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+3)%12] ) {
+								analyseAug9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}else {
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+3)%12] ) {
+								analyseAug9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}
+					}else if ( notes[(i+3)%12] ) {
+						analyseMinor = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+11)%12] ) {
+								analyse14 = 1;
+								analyseEC = 1;
+							}
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}else {
+							if ( notes[(i+1)%12] ) {
+								analyseDim9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+5)%12] ) {
+								analyse11 = 1;
+								analyseEC = 1;
+							} if ( notes[(i+9)%12] ) {
+								analyse13 = 1;
+								analyseEC = 1;
+							}
+						}
+					}
+				}else if ( guessNote ) {
+					if ( notes[(i+0)%12] && notes[(i+1)%12] && notes[(i+2)%12] && notes[(i+3)%12] && notes[(i+11)%12] ) {
+						analyseMinor = 1;
+						analyseM7 = 1;
+						analyse9 = 1;
+						analyseDim9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+1)%12] && notes[(i+2)%12] && notes[(i+4)%12] && notes[(i+11)%12] ) {
+						analyseMajor = 1;
+						analyseM7 = 1;
+						analyse9 = 1;
+						analyseDim9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+1)%12] && notes[(i+2)%12] && notes[(i+3)%12] && notes[(i+10)%12] ) {
+						analyseMinor = 1;
+						analyse7 = 1;
+						analyse9 = 1;
+						analyseDim9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+2)%12] && notes[(i+3)%12] && notes[(i+4)%12] && notes[(i+10)%12] ) {
+						analyseMajor = 1;
+						analyse7 = 1;
+						analyse9 = 1;
+						analyseAug9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+2)%12] && notes[(i+3)%12] && notes[(i+4)%12] && notes[(i+11)%12] ) {
+						analyseMajor = 1;
+						analyseM7 = 1;
+						analyse9 = 1;
+						analyseAug9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+1)%12] && notes[(i+2)%12] && notes[(i+3)%12] && notes[(i+4)%12] ) {
+						analyseMajor = 1;
+						analyse9 = 1;
+						analyseAug9 = 1;
+						analyseDim9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+1)%12] && notes[(i+2)%12] && notes[(i+3)%12] && notes[(i+5)%12] ) {
+						analyseMinor = 1;
+						analyse9 = 1;
+						analyseDim9 = 1;
+						analyse11 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+1)%12] && notes[(i+3)%12] && notes[(i+10)%12] && notes[(i+11)%12] ) {
+						analyseMinor = 1;
+						analyse7 = 1;
+						analyse14 = 1;
+						analyseDim9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}else if ( notes[(i+0)%12] && notes[(i+1)%12] && notes[(i+4)%12] && notes[(i+10)%12] && notes[(i+11)%12] ) {
+						analyseMajor = 1;
+						analyse7 = 1;
+						analyse14 = 1;
+						analyseDim9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}
+				}
+
+				//解析結果から名前を生成
+				if (analyseEC) { chordNameAnalyser("analyse"); }
+			}
+			return returner;
+		}
+
+		case 6: {
+			//有効なコードを検出できたかどうか、ループの外から監視。さいごにreturnの引数になる。
+			returner = false;
+			for ( i = 0; i <= shiftLimit; i++ ) {
+				//ノート解析初期化
+				chordNameAnalyser("initialize");
+
+				//ノート解析
+				if ( notes[(i+0)%12] && notes[(i+7)%12] ) {
+					if ( notes[(i+4)%12] ) {
+						analyseMajor = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}else {
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}
+					}else if ( notes[(i+3)%12] ) {
+						analyseMinor = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}
+
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}else {
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}
+					}else if ( notes[(i+5)%12] ) {
+						analyseSus4 = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}
+
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}else {
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+6)%12] ) {
+									analyseAug11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}
+					}
+				}else if ( notes[(i+0)%12] && notes[(i+6)%12] ) {
+					analyseDim5 = 1;
+
+					if ( notes[(i+4)%12] ) {
+						analyseMajor = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}else {
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}
+					}else if ( notes[(i+3)%12] ) {
+						analyseMinor = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}
+
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}else {
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}
+					}else if ( notes[(i+5)%12] ) {
+						analyseSus4 = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}
+
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}else {
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+8)%12] ) {
+									analyseDim13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}
+					}
+				}else if ( notes[(i+0)%12] && notes[(i+8)%12] ) {
+					analyseAug5 = 1;
+
+					if ( notes[(i+4)%12] ) {
+						analyseMajor = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}else {
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+3)%12] ) {
+									analyseAug9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}
+					}else if ( notes[(i+3)%12] ) {
+						analyseMinor = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}
+
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}else {
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+5)%12] ) {
+									analyse11 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}
+					}else if ( notes[(i+5)%12] ) {
+						analyseSus4 = 1;
+
+						if ( notes[(i+10)%12] ) {
+							analyse7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+11)%12] ) {
+									analyse14 = 1;
+									analyseEC = 1;
+								}
+							}
+
+						}else if( notes[(i+11)%12] ) {
+							analyseM7 = 1;
+
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}else {
+							if ( notes[(i+2)%12] ) {
+								analyse9 = 1;
+
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}else {
+								if ( notes[(i+1)%12] ) {
+									analyseDim9 = 1;
+									analyseEC = 1;
+								} if ( notes[(i+9)%12] ) {
+									analyse13 = 1;
+									analyseEC = 1;
+								}
+							}
+						}
+					}
+				}else if ( guessNote ) {
+					//6和音以上は処理が共通なので、和音数の判定を組み込んでおく必要がある
+					if (pnoteNumber == 6 && notes[(i+0)%12] && notes[(i+1)%12] && notes[(i+2)%12] && notes[(i+3)%12] && notes[(i+10)%12] && notes[(i+11)%12] ) {
+						analyseMinor = 1;
+						analyse7 = 1;
+						analyse14 = 1;
+						analyse9 = 1;
+						analyseDim9 = 1;
+						analyseEC = 1;
+						analyseGuess = 1;
+						doubter.push( [ (i+7)%12 ] );
+					}
+				}
+
+				//解析結果から名前を生成
+				if (analyseEC) { chordNameAnalyser("analyse"); }
+			}
+			return returner;
+		}
+
+	}
+
+}
+
+//【解析関連】解析結果のテンションフラグからコードネームを生成（四和音以上で発動）
+function chordNameAnalyser (action) {
+	if (action == "initialize" ) {
+		analyseMajor = 0;
+		analyseMinor = 0;
+		analyse7 = 0;
+		analyseM7 = 0;
+		analyseSus4 = 0;
+		analyseSus2 = 0;
+		analyseDim5 = 0;
+		analyseAug5 = 0;
+		analyseGuess = 0;
+		analyseSuperGuess = 0;
+		analyseDim9 = 0;
+		analyse9 = 0;
+		analyseAug9 = 0;
+		analyse11 = 0;
+		analyseAug11 = 0;
+		analyseDim13 = 0;
+		analyse13 = 0;
+		analyse14 = 0;
+		analyseEC = 0;
+	}else if (action == "analyse") {
+		//コードネーム解析。終了したらreturnerにtrueを返す。
+
+		pusherOperator = "";
+		pusherSeventh = "";
+		pusherSuspended = "";
+		pusherTensions = "";
+		pusherTensions2 = "";
+		pusherDoubt = "";
+
+
+		//これがないと、通常コードと推測コードを同時に検出したとき、通常コード側に推測鍵盤が表示される。
+		if ( !analyseGuess ) { doubter.push( [  ] ); }
+
+		if (analyseDim5 && analyseMinor && analyse7) {
+			pusherOperator = "<span class='chord_operator'>m</span>";
+			pusherTensions2 += "♭5, ";
+		}else if (analyseDim5 && analyseMinor && analyse13) {
+			pusherOperator = "<span class='chord_operator'>dim</span><span class='chord_interval'>7</span>";
+			analyse13 = 0;
+		}else if (analyseDim5 && analyseMinor) {
+			pusherOperator = "<span class='chord_operator'>dim</span>";
+		}else if (analyseAug5 && analyseMajor) {
+			pusherOperator = "<span class='chord_operator'>aug</span>";
+		}else if (analyseMajor && !analyse7 && !analyseM7 && !analyse13) {
+			pusherOperator = "<span class='chord_operator'></span>";
+		}else if (analyseMinor) {
+			pusherOperator = "<span class='chord_operator'>m</span>";
+		}
+
+		if (analyse7 && analyse9 && analyse11 && analyse13) {
+			pusherSeventh = "<span class='chord_interval'>13</span>";
+			analyse9 = 0;
+			analyse11 = 0;
+			analyse13 = 0;
+		}else if (analyseM7 && analyse9 && analyse11 && analyse13) {
+			pusherSeventh = "<span class='chord_interval'>M13</span>";
+			analyse9 = 0;
+			analyse11 = 0;
+			analyse13 = 0;
+		}else if (analyse7 && analyse9 && analyse11) {
+			pusherSeventh = "<span class='chord_interval'>11</span>";
+			analyse9 = 0;
+			analyse11 = 0;
+		}else if (analyseM7 && analyse9 && analyse11) {
+			pusherSeventh = "<span class='chord_interval'>M11</span>";
+			analyse9 = 0;
+			analyse11 = 0;
+		}else if (analyse7 && analyse9) {
+			pusherSeventh = "<span class='chord_interval'>9</span>";
+			analyse9 = 0;
+		}else if (analyseM7 && analyse9) {
+			pusherSeventh = "<span class='chord_interval'>M9</span>";
+			analyse9 = 0;
+		}else if (analyse7) {
+			pusherSeventh = "<span class='chord_interval'>7</span>";
+		}else if (analyseM7) {
+			pusherSeventh = "<span class='chord_interval'>M7</span>";
+		}else if (analyse13 && !(analyseM7 || analyse7) ) {
+			pusherSeventh = "<span class='chord_interval'>6</span>";
+			analyse13 = 0;
+		}else if (analyseDim13 && !(analyseM7 || analyse7) ) {
+			pusherSeventh = "<span class='chord_interval'>♭6</span>";
+			analyseDim13 = 0;
+		}
+
+
+
+		if (analyseSus4) {
+			pusherSuspended = "<span class='chord_operator'>sus</span><span class='chord_interval'>4</span>";
+		}else if (analyseSus2) {
+			pusherSuspended = "<span class='chord_operator'>sus</span><span class='chord_interval'>2</span>";
+		}
+
+		if (analyseGuess || analyseSuperGuess) { pusherDoubt = "<span class='chord_doubt'>?</span>"; }
+		if (analyseDim9) { pusherTensions += "♭9, "; }
+		if (analyse9) { pusherTensions += "9, "; }
+		if (analyseAug9) { pusherTensions += "♯9, "; }
+		if (analyse11) { pusherTensions += "11, "; }
+		if (analyseAug11) { pusherTensions += "♯11, "; }
+		if (analyseDim13) { pusherTensions += "♭13, "; }
+		if (analyse13) { pusherTensions += "13, "; }
+		if (analyse14) { pusherTensions += "14, "; }
+		if (analyseDim5 && !analyseMinor) { pusherTensions2 += "♭5, "; }
+		if (analyseAug5 && !analyseMajor) { pusherTensions2 += "♯5, "; }
+
+		if (pusherTensions || pusherTensions2) {
+			pusherTensions += pusherTensions2;
+			pusherTensions = pusherTensions.replace(/(, )$/,"");
+			pusherTensions = "<sup>("+pusherTensions+")</sup>";
+		}
+
+		chordType.push(pusherOperator+pusherSeventh+pusherSuspended+pusherTensions+pusherDoubt);
+		iArray.push(i);
+		returner = true;
+	}
+}
+
+//【解析関連】シンボリックコードに変換する（チェック時のみ発動）
+function symbolizeChord() {
+	for (var k = 0, len = chordType.length; k < len; k++) {
+
+		pvalue = chordType[k];
+		chordType[k] = chordType[k]
+			.replace("M","△","g")
+			.replace("<span class='chord_operator'>omit</span><span class='chord_interval'>3</span>","<span class='chord_interval'>5</span>","g")
+			.replace(/<span class='chord_operator'>m<\/span><span class='chord_interval'>7<\/span>(.*?<sup>\(.*?)♭5(.*?\)<\/sup>)/g,"<sup>ø<\/sup>$1$2")
+			.replace("()","","g").replace(", )",")","g")
+			.replace("<span class='chord_operator'>m</span>","<span class='chord_interval'>-</span>","g")
+			.replace("<span class='chord_operator'>dim</span>","<sup>o</sup>","g")
+			.replace("<span class='chord_operator'>aug</span>","<sup>+</sup>","g")
+			.replace(/♭/g,"-").replace(/♯/g,"+");
+
+		if (chordType[k] == pvalue) {
+			chordType[k] = chordType[k].replace("<span class='chord_operator'></span>","<span class='chord_interval'>△</span>","g");
+		}
+
+	}
+}
+
+
+//【マウスオーバー関連】ゲスしたノートを鍵盤に表示するよ
+////この関数はコードネームへのマウスオーバー/マウスアウトによってのみ呼び出される
+////ゆえに解析側との変数の受け渡しには注意されたし
+function indicateOver(rootIndex, doubterNumber, fixToggle) {
+	//マウスオーバーしたコードのルート鍵盤位置がrootIndexに格納される
+
+
+	//押下鍵盤の走査
+	notes2 = new Array(
+		//解析側ルーチンの配列notesは、マウスオーバー側のこちらからでは参照できないため、
+		//こちら側はこちら側で独自にチェックボックスの値を読みに行かねばならない。
+		//（解析側でnotes2=notesとしても、notes2がnotesのエイリアスとして作られるだけなのでNG）
+		document.getElementById('c').checked,
+		document.getElementById('cis').checked,
+		document.getElementById('d').checked,
+		document.getElementById('dis').checked,
+		document.getElementById('e').checked,
+		document.getElementById('f').checked,
+		document.getElementById('fis').checked,
+		document.getElementById('g').checked,
+		document.getElementById('gis').checked,
+		document.getElementById('a').checked,
+		document.getElementById('b').checked,
+		document.getElementById('h').checked,
+		document.getElementById('c2').checked,
+		document.getElementById('cis2').checked,
+		document.getElementById('d2').checked,
+		document.getElementById('dis2').checked,
+		document.getElementById('e2').checked,
+		document.getElementById('f2').checked,
+		document.getElementById('fis2').checked,
+		document.getElementById('g2').checked,
+		document.getElementById('gis2').checked,
+		document.getElementById('a2').checked,
+		document.getElementById('b2').checked,
+		document.getElementById('h2').checked
+	);
+
+	bassAnalyse2 = document.getElementById('bass_note').checked;
+
+	//鍵盤を下から順に走査して、最低押下音を検出する。
+	var flag = 1;
+	for ( var i = 0; i < allKeys; i++ ) {
+		if ( flag && notes2[i] ) {
+			flag = 0;
+			bassNote2 = i;
+		}
+	}
+
+
+	//fixToggle==1でこの関数に渡されたとき、fixToggleMemoryの値を変化させる（この値はhtml側にhiddenで記録される）。
+	var fix = document.getElementById('fixToggleMemory');
+	if (fixToggle == "1") { //htmlから取得してきた値は文字列扱い：×if(fix.value)  ○if(fix.value == "1")
+		if ( fix.value == "0" ) {
+			fix.value = 1;
+
+			//コードリストを固定
+			freezeChordLines(doubterNumber);
+			indicateExpandedChord(rootIndex, doubterNumber);
+
+			//コードネームをElasticなかんじにする
+			chordListHoverResponser();
+		}else {
+			fix.value = 0;
+
+			//コードリストを固定解除
+			unfreezeChordLines();
+
+			//鍵盤の色付け結果を一旦クリアする（固定と解除が別の行で実行されたときのゴミ防止）
+			indicateRelease();
+
+			//コードネームをElasticなかんじにする
+			chordListHoverResponser();
+		}
+	}
+
+	//鍵盤色付け関連
+	if ( fix.value == "0" && noteNumber ) {  //マウスクリック時はゲス関係のアクションを起こさない
+
+		//右側のボックス、基準音位置の表示
+		//document.getElementById("detected").innerHTML = rootIndex;
+
+		//ルート鍵盤の色変え、小キーボード表示。マウスオン時常に発動。
+		if( doubterNumber != -1 ) {
+			indicateOurRoot(rootIndex, doubterNumber);
+		}
+
+
+		//インターバルオプションONのとき、鍵盤にインデックスを表示する
+		if(showInterval) {
+			indicateIndex(rootIndex, doubterNumber);
+		}
+
+		//マウスオン時にゲスした結果が残ってたら、ゲスインジケータ発動
+		if( doubterNumber == -1 ) {
+			indicateRelease(rootIndex, doubterNumber);
+		}else if ( doubter[doubterNumber] ) {
+			indicateGuesses(rootIndex, doubterNumber);
+		}
+	}
+}
+
+
+//【マウスオーバー関連】小キーボードにコード展開表示
+function indicateExpandedChord(rootKeyIndex, chordLineNumber) {
+
+
+	//鍵盤チェックとオクターブまとめ
+	{
+		//別ルーチンで正規化しといた押下鍵盤リストを使う。
+		var notesP = notes;
+
+		for ( var i = 0; i < 12; i++ ) {
+			if ( notes[i] || notes[i+12] ) {
+				notes[i] = 1;
+				notes[i+12] = 0;
+			}
+		}
+
+		//推測鍵盤チェック・配列に書き直し（オクターブは1つにまとめる）
+		var notesD = new Array();
+		if ( doubter[chordLineNumber] ) {
+			for ( i = 0, len = doubter[chordLineNumber].length; i < len; i++ ) {
+				notesD[ doubter[chordLineNumber][i]%12 ] = true;
+			}
+		}
+
+		//ルート鍵盤チェック（オクターブを1つにまとめる）
+		var notesR = new Array();
+		rootKeyIndex = rootKeyIndex%12;
+		notesR[ rootKeyIndex ] = true;
+
+
+
+		//ルートより低位置にある鍵盤はすべて8va altaする
+		//保険のため2オクターブ分走査
+		for (var i = 0; i < allKeys; i++) {
+			if (i < rootKeyIndex) {
+				if ( notesP[i] ) {
+					notesP[i] = false;
+					notesP[i+12] = true;
+				}
+				if ( notesD[i] ) {
+					notesD[i] = false;
+					notesD[i+12] = true;
+				}
+			}
+		}
+
+		/*
+		このあとnotesP, D, Rの配列をまとめる。その結果は
+		true, , , , true, , , true, , , , , true
+		みたいになる。ここのPDRをすべて区別して
+		root, , , , , playing, , , , , doubted, , , , , ,playing
+		みたいにすれば小キーボードにも色分けが効くが、見づらくなるので手を付けない。
+		とくにdoubted&rootみたいな重複の判定が面倒そうだし。
+		*/
+
+		//PとDのリストをまとめる。
+		var notesO = new Array(24);
+		for (var i = 0; i < allKeys; i++) {
+			if ( notesP[i] || notesD[i] ) {
+				notesO[i] = true;
+			}
+		}
+	}
+
+
+	//ここからコードを正規化・展開
+	//まだ条件詰め切ってない
+	{
+		if ( notesO[rootKeyIndex+7] ) { //5が押されてれば
+			if ( notesO[rootKeyIndex+6] ) { //b5は#11に
+				notesO[rootKeyIndex+6] = false;
+				notesO[rootKeyIndex+6+12] = true;
+			}
+		}
+
+		if ( notesO[rootKeyIndex+4] ) { //M3が押されてれば
+			if ( notesO[rootKeyIndex+3] ) { //m3はm10に
+				notesO[rootKeyIndex+3] = false;
+				notesO[rootKeyIndex+3+12] = true;
+			}
+			if ( notesO[rootKeyIndex+1] ) { //2は9に
+				notesO[rootKeyIndex+1] = false;
+				notesO[rootKeyIndex+1+12] = true;
+			}
+			if ( notesO[rootKeyIndex+2] ) { //b2はb9に
+				notesO[rootKeyIndex+2] = false;
+				notesO[rootKeyIndex+2+12] = true;
+			}
+			if ( notesO[rootKeyIndex+5] ) { //4は11に
+				notesO[rootKeyIndex+5] = false;
+				notesO[rootKeyIndex+5+12] = true;
+			}
+		}else if ( notesO[rootKeyIndex+3] ) { //M3がなくてもm3があれば
+			if ( notesO[rootKeyIndex+1] ) { //2は9に
+				notesO[rootKeyIndex+1] = false;
+				notesO[rootKeyIndex+1+12] = true;
+			}
+			if ( notesO[rootKeyIndex+2] ) { //b2はb9に
+				notesO[rootKeyIndex+2] = false;
+				notesO[rootKeyIndex+2+12] = true;
+			}
+			if ( notesO[rootKeyIndex+5] ) { //4は11に
+				notesO[rootKeyIndex+5] = false;
+				notesO[rootKeyIndex+5+12] = true;
+			}
+		}else if ( notesO[rootKeyIndex+5] ) { //3系がなくても4があれば（sus4系和音なら）
+			if ( notesO[rootKeyIndex+1] ) { //2は9に
+				notesO[rootKeyIndex+1] = false;
+				notesO[rootKeyIndex+1+12] = true;
+			}
+			if ( notesO[rootKeyIndex+2] ) { //b2はb9に
+				notesO[rootKeyIndex+2] = false;
+				notesO[rootKeyIndex+2+12] = true;
+			}
+		}else if ( notesO[rootKeyIndex+5] ) { //3系も4もない（sus2系和音）なら
+			if ( notesO[rootKeyIndex+2] ) { //b2はb9に
+				notesO[rootKeyIndex+2] = false;
+				notesO[rootKeyIndex+2+12] = true;
+			}
+		}
+
+
+		if ( notesO[rootKeyIndex+10] ) { //7が押されてれば
+			if ( notesO[rootKeyIndex+11] ) { //M7はM14に
+				notesO[rootKeyIndex+11] = false;
+				notesO[rootKeyIndex+11+12] = true;
+			}
+			if ( notesO[rootKeyIndex+7] ) { //さらに5も押されてれば
+				if ( notesO[rootKeyIndex+6] ) { //b5はb12に
+					notesO[rootKeyIndex+5] = false;
+					notesO[rootKeyIndex+5+12] = true;
+				}
+				if ( notesO[rootKeyIndex+9] ) { //6は13に
+					notesO[rootKeyIndex+9] = false;
+					notesO[rootKeyIndex+9+12] = true;
+				}
+				if ( notesO[rootKeyIndex+8] ) { //b6はb13に
+					notesO[rootKeyIndex+8] = false;
+					notesO[rootKeyIndex+8+12] = true;
+				}
+			}else if ( notesO[rootKeyIndex+6] ) { //もしくは、さらにb5も押されてれば
+				if ( notesO[rootKeyIndex+9] ) { //6は13に
+					notesO[rootKeyIndex+9] = false;
+					notesO[rootKeyIndex+9+12] = true;
+				}
+				if ( notesO[rootKeyIndex+8] ) { //b6はb13に
+					notesO[rootKeyIndex+8] = false;
+					notesO[rootKeyIndex+8+12] = true;
+				}
+			}else if ( notesO[rootKeyIndex+9] ) { //もしくは、さらに6も押されてれば
+				if ( notesO[rootKeyIndex+8] ) { //b6はb13に
+					notesO[rootKeyIndex+8] = false;
+					notesO[rootKeyIndex+8+12] = true;
+				}
+			}
+		}else if ( notesO[rootKeyIndex+11] ) { //7がなくてもM7があれば
+			if ( notesO[rootKeyIndex+7] ) { //さらに5も押されてれば
+				if ( notesO[rootKeyIndex+6] ) { //b5はb12に
+					notesO[rootKeyIndex+5] = false;
+					notesO[rootKeyIndex+5+12] = true;
+				}
+				if ( notesO[rootKeyIndex+9] ) { //6は13に
+					notesO[rootKeyIndex+9] = false;
+					notesO[rootKeyIndex+9+12] = true;
+				}
+				if ( notesO[rootKeyIndex+8] ) { //b6はb13に
+					notesO[rootKeyIndex+8] = false;
+					notesO[rootKeyIndex+8+12] = true;
+				}
+			}else if ( notesO[rootKeyIndex+6] ) { //もしくは、さらにb5も押されてれば
+				if ( notesO[rootKeyIndex+9] ) { //6は13に
+					notesO[rootKeyIndex+9] = false;
+					notesO[rootKeyIndex+9+12] = true;
+				}
+				if ( notesO[rootKeyIndex+8] ) { //b6はb13に
+					notesO[rootKeyIndex+8] = false;
+					notesO[rootKeyIndex+8+12] = true;
+				}
+			}else if ( notesO[rootKeyIndex+9] ) { //もしくは、さらに6も押されてれば
+				if ( notesO[rootKeyIndex+8] ) { //b6はb13に
+					notesO[rootKeyIndex+8] = false;
+					notesO[rootKeyIndex+8+12] = true;
+				}
+			}
+		}
+	}
+
+
+	//正規化した和音のとおりに鍵盤の色替え
+	{
+		//通常鍵盤
+		for (var i = 0; i < allSKeys; i++) {
+			if ( notesO[i] ) {
+				//変更対象要素のエイリアス
+				//+12することで低音部1オクターブを避ける
+				var myKey = document.getElementsByName("keyS_"+(i+12));
+
+				//スタイル変更
+				for (j = 0, len = myKey.length; j < len; j++) {
+					myKey[j].className += " playing";
+				}
+			}
+		}
+
+
+		//ルート鍵盤色替え（オーバーライド）
+		//+12することで低音部1オクターブを避ける
+		var myKey = document.getElementsByName("keyS_"+(rootKeyIndex+12));
+		for (var k = 0, len = myKey.length; k < len; k++) {
+			temp = myKey[k].className;
+			temp = temp.replace("root","").replace(/ +/g," ").replace(/ "/g,'"');
+			temp += " root";
+			myKey[k].className = temp;
+		}
+
+
+		//ベース音鍵盤の色替え（bassNoteは別ルーチンからの値）
+		if ( bassAnalyse && bassNote < 12 ) {
+			var myKey = document.getElementsByName("keyS_"+bassNote);
+			for (var k = 0, len = myKey.length; k < len; k++) {
+				temp = myKey[k].className;
+				temp = temp.replace("bass","").replace(/ +/g," ").replace(/ "/g,'"');
+				temp += " bass";
+				myKey[k].className = temp;
+			}
+		}
+	}
+
+
+
+	//小鍵盤の幅取得して、親divの幅に同じ値を適用する。これにより親divのセンタリングが可能になる。 jQuery
+	kbwidth = $('#kb2frame').outerWidth();
+	$('#kb2frameframe').css("width", kbwidth+"px" );
+	kbbwidth = $('#kb2frameframe').width();
+
+	//小鍵盤表示する。表示完了時点でセンタリングを実現するように。
+	//相対位置指定はなにかとズレがちなので、絶対位置で書く。 jQuery
+	$('#kb2frame').fadeIn(150);
+	$('#kb2frame').animate({ top: "40px", left: "0px" }, {queue: false, duration: 150});
+	//document.getElementById('kb2frame').style.display = "block";
+
+}
+
+
+
+//【マウスオーバー関連】ルートになってる鍵盤（ゲス含む）の色変え
+function indicateOurRoot(rootIndex, doubterNumber) {
+
+	//色替え対象になったルート鍵盤番号を、この変数に出力してゆく
+	var pressedRoot = new Array();
+
+	//色を変えるべきルートは、押下のある鍵盤か――
+	if ( notes2[rootIndex%12] ) { pressedRoot.push(rootIndex%12); }
+	if ( notes2[rootIndex%12 +12] ) { pressedRoot.push(rootIndex%12 +12); }
+	//――もしくはゲスした（しているはずだ）鍵盤だけ
+	if ( pressedRoot.length == 0 ) { pressedRoot.push(rootIndex%12); }
+
+
+	//とりあえず最大値を入力しといて、後から減らす変数
+	indicatedRoot = 88;
+
+	for (var j = 0, len = pressedRoot.length; j < len; j++) {
+		//ゲス鍵盤とルート鍵盤がベース音より下に来ないようにオクターブ操作
+		if ( bassAnalyse2 && pressedRoot[j] <= bassNote2 && bassNote2 < 12 ) {
+			pressedRoot[j] = pressedRoot[j]+12;
+		}
+
+		//色変えするルート鍵盤のうち、いちばん低いものがどれか調べとく。これはindicateGuessesで使用。
+		if ( pressedRoot[j] < indicatedRoot ) {
+			indicatedRoot = pressedRoot[j];
+		}
+
+		//変更対象要素のエイリアスをつくる
+		var myKey = document.getElementsByName("key_"+pressedRoot[j]);
+
+		//押下中のキーについて、スタイル変更
+		for (var k = 0, len2 = myKey.length; k < len2; k++) {
+			temp = myKey[k].className;
+			temp = temp.replace("root","").replace(/ +/g," ").replace(/ "/g,'"');
+			temp += " root";
+			myKey[k].className = temp;
+		}
+	}
+}
+
+//【マウスオーバー関連】ゲスした鍵盤の色変え
+function indicateGuesses(rootIndex, doubterNumber) {
+
+	//推測した鍵盤の数だけループする
+	for ( var i = 0; i < doubter[doubterNumber].length; i++ ) {
+
+		//色変える鍵盤番号をひとつ所得
+		var j = doubter[doubterNumber][i];
+
+		if ( j < indicatedRoot) {
+			//ゲスされる位置は、可能ならばルートよりも上にしたい。
+			//いま色を変えようとしてる鍵盤がルートよりも低かった場合、ゲス鍵盤を1オクターブ上げられるか試してみる。
+			//（この部分で転回系の表示を抑制している。ベース音抜き+三和音以内ならぜんぶ基本形のみの登場になるよ）
+			j = j%12 + 12;
+		}
+
+		//色変え対象要素をエイリアスとして定義
+		var myKey = document.getElementsByName("key_"+j);
+
+		//色変え実行
+		for (var k = 0, len = myKey.length; k < len; k++) {
+			temp = myKey[k].className;
+			temp = temp.replace("doubted","").replace(/ +/g," ").replace(/ "/g,'"');
+			temp += " doubted";
+			myKey[k].className = temp;
+		}
+	}
+}
+
+//【マウスオーバー関連】推測コードのインデックスを表示
+function indicateIndex(rootIndex, doubterNumber) {
+
+	//i2i (index to interval) を言語ごとに各種定義
+	if (iLang == "chd") {
+		//3がMajだったときとminだったとき、7系テンションが押されてないとき・7だったとき・M7だったとき、合計6通り。
+		var i2i_m3 = new Array('8','♭2','2','m3','M3','4','♭5','5','♯5','6','7','M7');
+		var i2i_M3 = new Array('8','♭2','2','♯2','M3','4','♭5','5','♯5','6','7','M7');
+		var i2i_m3_7 = new Array('8','♭9','9','m3','M3','11','♯11','5','♭13','13','7','14');
+		var i2i_M3_7 = new Array('8','♭9','9','♯9','M3','11','♯11','5','♭13','13','7','14');
+		var i2i_m3_M7 = new Array('8','♭9','9','m3','M3','11','♯11','5','♭13','13','7','M7');
+		var i2i_M3_M7 = new Array('8','♭9','9','♯9','M3','11','♯11','5','♭13','13','7','M7');
+		var i2i_Rt = "R";
+
+	}else if (iLang == "en") {
+		var i2i_m3 = new Array('P8','m2','M2','m3','M3','P4','d5','P5','A5','M6','m7','M7');
+		var i2i_M3 = new Array('P8','m2','M2','A2','M3','P4','d5','P5','A5','M6','m7','M7');
+		var i2i_m3_7 = new Array('P8','m9','M9','m3','M3','P11','A11','P5','m13','M13','m7','M14');
+		var i2i_M3_7 = new Array('P8','m9','M9','A9','M3','P11','A11','P5','m13','M13','m7','M14');
+		var i2i_m3_M7 = new Array('P8','m9','M9','m3','M3','P11','A11','P5','m13','M13','m7','M7');
+		var i2i_M3_M7 = new Array('P8','m9','M9','A9','M3','P11','A11','P5','m13','M13','m7','M7');
+		var i2i_Rt = "Rt";
+
+	}else if (iLang == "ja") {
+		var i2i_m3 = new Array('完8','短2','長2','短3','長3','完4','減5','完5','増5','長6','短7','長7');
+		var i2i_M3 = new Array('完8','短2','長2','増2','長3','完4','減5','完5','増5','長6','短7','長7');
+		var i2i_m3_7 = new Array('完8','短9','長9','短3','長3','完11','増11','完5','短13','長13','短7','長14');
+		var i2i_M3_7 = new Array('完8','短9','長9','増9','長3','完11','増11','完5','短13','長13','短7','長14');
+		var i2i_m3_M7 = new Array('完8','短9','長9','短3','長3','完11','増11','完5','短13','長13','短7','長7');
+		var i2i_M3_M7 = new Array('完8','短9','長9','増9','長3','完11','増11','完5','短13','長13','短7','長7');
+		var i2i_Rt = "根音";
+	}
+
+
+
+	//min,Maj,7の有無で場合分けして、使うインデックスセットを選ぶ。この関数のコアのロジック。
+	//M3はm3に優先して検出され、どちらも存在する場合m3は#9となる。
+	//同様に7はM7に優先して検出され、どちらも存在する場合M7は14となる。
+	if ( (notes2[(rootIndex+4)%12] || notes2[(rootIndex+4)%12+12]) &&
+	(notes2[(rootIndex+10)%12] || notes2[(rootIndex+10)%12+12]) ) {
+		//M3かつ7
+		indexToInterval = i2i_M3_7;
+
+	}else if ( (notes2[(rootIndex+10)%12] || notes2[(rootIndex+10)%12+12]) ) {
+		//M3がない（m3、もしくはどちらも押されていない）状態で7
+		indexToInterval = i2i_m3_7;
+
+	}else if ( (notes2[(rootIndex+4)%12] || notes2[(rootIndex+4)%12+12]) &&
+	(notes2[(rootIndex+11)%12] || notes2[(rootIndex+11)%12+12]) ) {
+		//M3かつM7
+		indexToInterval = i2i_M3_M7;
+
+	}else if ( (notes2[(rootIndex+11)%12] || notes2[(rootIndex+11)%12+12]) ) {
+		//M3がない状態でM7
+		indexToInterval = i2i_m3_M7;
+
+	}else if ( (notes2[(rootIndex+4)%12] || notes2[(rootIndex+4)%12+12]) ) {
+		//7系が存在せず、3がMaj
+		indexToInterval = i2i_M3;
+
+	}else {
+		//7系が存在せず、3がminもしくは存在しない
+		indexToInterval = i2i_m3;
+	}
+
+
+
+	//全鍵盤へ順番に音程インデックスを振っていく
+	for (var i = 0; i < allKeys; i++) {
+		indexCell = document.getElementById( "key_index_"+i );
+		indexCell.innerHTML = indexToInterval[ (i - rootIndex +12)%12 ];
+
+		//Rootに関してのみ8をRにオーバーライドする
+		//if notes2[rootIndex%12 +12] とは「押してる鍵盤に、guessしてるコード根音の8va鍵盤が含まれていたら」の意味
+		if ( notes2[rootIndex%12 +12] &&  i == rootIndex%12 +12 ) {
+			indexCell.innerHTML = i2i_Rt;
+		}else if ( !notes2[rootIndex%12 +12] &&  i == rootIndex ) {
+			indexCell.innerHTML = i2i_Rt;
+		}
+
+		indexCell.className = indexCell.className.replace(/hidden/g, "");
+	}
+}
+
+//【マウスオーバー関連】マウスアウトのときは全鍵盤のguess色を強制解除
+function indicateRelease() {
+
+	for (var i = 0; i < allKeys; i++) {
+
+		//変更対象要素のエイリアスをつくる
+		var myKey = document.getElementsByName("key_"+i);
+		var myIndex = document.getElementById( "key_index_"+i );
+		myIndex.className += " hidden";
+
+		//iは各鍵盤に対応する0-23の数値、kは各々の鍵盤を構成するtdパーツに対応する0-最大4の数値。
+		for (var k = 0, len = myKey.length; k < len; k++) {
+			temp = myKey[k].className;
+			temp = temp.replace("doubted","").replace("root","").replace(/ +/g," ").replace(/ "/g,'"');
+			myKey[k].className = temp;
+		}
+	}
+
+
+
+	//こちらは小鍵盤の非表示処理。ロジックは上と同じ。 jQuery
+	$('#kb2frame').fadeOut(50);
+	$('#kb2frame').animate({ top: "43px", left: "3px" }, {queue: false, duration: 50});
+
+	for (var i = 0; i < allSKeys; i++) {
+		var mySKey = document.getElementsByName("keyS_"+i);
+		for (var k = 0, len = mySKey.length; k < len; k++) {
+			temp = mySKey[k].className;
+			temp = temp.replace("doubted","").replace("root","").replace("playing","").replace("bass","");
+			mySKey[k].className = temp;
+		}
+	}
+}
+
+//【マウスクリック】マウスクリックのとき、コードリストの表示を固定する。
+function freezeChordLines(clickedLineNumber) {
+
+	//活性のあるラインの数を取得
+	var numLines = document.getElementsByName('chord_lines').length;
+
+	//クリックしたラインへの処理
+	var clickedLine = document.getElementById('cLine'+clickedLineNumber);
+	clickedLine.className += " fixed_line";
+	clickedLine.setAttribute('title', '固定中...');
+	document.getElementById('fixedLineMemory').value = clickedLine.outerHTML;
+
+	//クリックした以外のラインへの不活化処理
+	for ( var i = 0; i < numLines; i++ ) {
+		if ( i != clickedLineNumber ) {
+			var myLine = document.getElementById('cLine'+i);
+			myLine.className = "chord_lines_disabled";
+			myLine.setAttribute('title', 'クリックで固定解除');
+		}
+	}
+
+	//固定中は鍵盤とかオプションに触らせない
+	$('input').attr("disabled","disabled");
+}
+
+//【マウスクリック】再度マウスクリックのとき、固定解除する。
+function unfreezeChordLines() {
+
+	//活・不活すべてのライン数を取得
+	var numDLines = document.getElementsByName('chord_lines').length;
+
+	//これをしておかないと、固定したまま複数操作したときの動きが変になったりする（各所でフラグとしても働いているためか）
+	document.getElementById('fixedLineMemory').value = "";
+
+	if ( document.getElementById('lineAppendFlagMemory').value == "1" ) {
+		//追加行がありましたフラグをクリア
+		document.getElementById('lineAppendFlagMemory').value = 0;
+
+		//無効化した上で通常行に混じらせる
+		var lApend = document.getElementById('cLineAppend');
+		lApend.className = "chord_lines_disabled";
+		lApend.name = "chord_lines";
+		lApend.setAttribute('title', '').setAttribute('onclick', '').setAttribute('onmouseover', '').setAttribute('onmouseout', '');
+	}
+
+	//再度活性化
+	for ( var i = 0; i < numDLines; i++ ) {
+		var myLine = document.getElementById('cLine'+i);
+
+		//「fixed_lines」が追加されたclassも、chord_lines_disabledに書き換えられたclassも、この1行でまとめて初期化できる
+		myLine.className = "chord_lines";
+		myLine.setAttribute('title', 'クリックで固定');
+	}
+
+	//無効化しておいたinput類を再度有効化
+	$('input').removeAttr("disabled");
+
+}
+
+
+
+//【解析側；解析結果リスト表示】マウスオーバー側関数が動くためのハンドラをつける
+function outputChord(noteNumber) {
+
+	//出力先初期化
+	var AllYourChord = "";
+
+	//数字 → 音名の変換テーブル
+	num2note = new Array( //シャープ系の変換
+		'C<sup class="chord_spacer">`</sup>',
+		'C<sup>♯</sup>',
+		'D<sup class="chord_spacer">`</sup>',
+		'D<sup>♯</sup>',
+		'E<sup class="chord_spacer">`</sup>',
+		'F<sup class="chord_spacer">`</sup>',
+		'F<sup>♯</sup>',
+		'G<sup class="chord_spacer">`</sup>',
+		'G<sup>♯</sup>',
+		'A<sup class="chord_spacer">`</sup>',
+		'A<sup>♯</sup>',
+		'B<sup class="chord_spacer">`</sup>'
+	);
+	num3note = new Array( //フラット系の変換
+		'C<sup class="chord_spacer">`</sup>',
+		'D<sup>♭</sup>',
+		'D<sup class="chord_spacer">`</sup>',
+		'E<sup>♭</sup>',
+		'E<sup class="chord_spacer">`</sup>',
+		'F<sup class="chord_spacer">`</sup>',
+		'G<sup>♭</sup>',
+		'G<sup class="chord_spacer">`</sup>',
+		'A<sup>♭</sup>',
+		'A<sup class="chord_spacer">`</sup>',
+		'B<sup>♭</sup>',
+		'B<sup class="chord_spacer">`</sup>'
+	);
+
+
+
+	//固定化行が記録されていたら、まずリスト先頭にそれを出力してからループに入る。
+	if ( document.getElementById('fixedLineMemory').value != 0 ) {
+
+		//新たに生成される行と混ざるといろいろ厄介なので、nameとidを書き換えておく。
+		var memoriedLine = document.getElementById('fixedLineMemory').value;
+		memoriedLine = memoriedLine.replace(/cLine[0-9]*/,"cLineAppend").replace(/name=\"chord_lines\"/,"name=\"chord_lines_append\"");
+
+		//追加行が発生していることを記録しておく。
+		document.getElementById('lineAppendFlagMemory').value = 1;
+
+		//リスト先頭に出力
+		AllYourChord += memoriedLine;
+	}
+
+	for ( var k = 0, len = chordType.length; k < len; k++ ) {
+		//「ルート」+「コード型」でコードネーム生成する。
+		// ここは (ルート, コード型) の組の数だけループ
+
+
+		//既に固定化（不活化）されている場合は、新しい結果も不活状態で生成する。
+		var fix = document.getElementById('fixToggleMemory');
+		if (fix.value == "0") {
+			var chordOver = "<li class='chord_lines' name='chord_lines' id='cLine"+k+"' title='クリックで固定' onmouseover='indicateOver("+ jArray[k] +" , "+ k +" , 0 )' onmouseout='indicateOver("+ -1 +" , "+ -1 +" , 0 )' onclick='indicateOver("+ jArray[k] +" , "+ k +" , 1 )'>";
+		}else {
+			var chordOver = "<li class='chord_lines_disabled' name='chord_lines' id='cLine"+k+"' title='クリックで固定解除'  onmouseover='indicateOver("+ jArray[k] +" , "+ k +" , 0 )' onmouseout='indicateOver("+ -1 +" , "+ -1 +" , 0 )' onclick='indicateOver("+ jArray[k] +" , "+ k +" , 1 )'>";
+		}
+
+
+		if ( chordType[k].match("chord_doubt") ) {flag = 1;}else {flag = 0;}
+		chordType[k] = chordType[k].replace("<span class='chord_doubt'>?</span>","");
+
+
+		//シャープ/フラットの別ごとに出力を変更
+		//if (fsb == "none") {
+			//全部消す（RとQで出力）。
+			//無効化。bothと全部消すを同じ動作にしちゃう。
+			/*
+			AllYourChord += chordOver+"<span class='chord_line'><span class='chord_root'>"+rootSymbol+"</span>"+chordType[k];
+
+			if ( bassAnalyse && bassNote < 12 && bassNote != jArray[k] ) { AllYourChord += "<span class='chord_bass'> / "+bassSymbol+"</span>"; }
+			if (flag) { AllYourChord += "<span class='chord_doubt'>?</span>"; }
+			AllYourChord += "</span></li>";
+			*/
+
+		/*}else */
+		if (( num2note[ jArray[k] ] == num3note[ jArray[k] ] ) && (!bassAnalyse||( num2note[ bassNote ] == num3note[ bassNote ] )))  {
+			//ルートにもベースにも異名同音がない or ベース解析が無効で ルート異名同音がない
+			AllYourChord += chordOver+"<span class='chord_line'><span class='chord_root'>"+num2note[ jArray[k] ]+"</span>"+chordType[k];
+			if ( bassAnalyse && bassNote < 12 && bassNote != jArray[k] ) {
+				AllYourChord += "<span class='chord_bass'> / "+num2note[ bassNote ]+"</span>";
+			}
+
+			if (flag) { AllYourChord += "<span class='chord_doubt'>?</span>"; }
+			AllYourChord += "</span></li>";
+
+		}else if (fsb == "sharp") {
+			//シャープ系のとき、シャープ変換の結果だけ変換の結果だけ出力する。
+			AllYourChord += chordOver+"<span class='chord_line'><span class='chord_root'>"+num2note[ jArray[k] ]+"</span>"+chordType[k];
+			if ( bassAnalyse && bassNote < 12 && bassNote != jArray[k] ) { AllYourChord += "<span class='chord_bass'> / "+num2note[ bassNote ]+"</span>"; }
+			if (flag) { AllYourChord += "<span class='chord_doubt'>?</span>"; }
+			AllYourChord += "</span></li>";
+
+		}else if (fsb == "flat") {
+			//フラット系のとき、フラット変換の結果だけ出力する。
+			AllYourChord += chordOver+"<span class='chord_line'><span class='chord_root'>"+num3note[ jArray[k] ]+"</span>"+chordType[k];
+			if ( bassAnalyse && bassNote < 12 && bassNote != jArray[k] ) { AllYourChord += "<span class='chord_bass'> / "+num3note[ bassNote ]+"</span>"; }
+			if (flag) { AllYourChord += "<span class='chord_doubt'>?</span>"; }
+			AllYourChord += "</span></li>";
+
+		}else if (fsb == "both" || fsb == "none") {
+			//全部出すのとき、どっちの変換結果も出力する。
+			////全部消すも
+			AllYourChord += chordOver+"<span class='chord_line'><span class='chord_root'>"+num3note[ jArray[k] ]+"</span>"+chordType[k];
+			if ( bassAnalyse && bassNote < 12 && bassNote != jArray[k] ) { AllYourChord += "<span class='chord_bass'> / "+num3note[ bassNote ]+"</span>"; }
+			if (flag) { AllYourChord += "<span class='chord_doubt'>?</span>"; }
+			AllYourChord += "</span>";
+
+			AllYourChord += "<br />"+"<span class='chord_line'><span class='chord_root'>"+num2note[ jArray[k] ]+"</span>"+chordType[k];
+			if ( bassAnalyse && bassNote < 12 && bassNote != jArray[k] ) { AllYourChord += "<span class='chord_bass'> / "+num2note[ bassNote ]+"</span>"; }
+			if (flag) { AllYourChord += "<span class='chord_doubt'>?</span>"; }
+			AllYourChord += "</span></li>";
+
+		}else if (fsb == "both_alt" || fsb == "none_alt") {
+			//全部出す・全部消す_altanative
+			AllYourChord += chordOver+"<span class='chord_line'><span class='chord_root'>"+num2note[ jArray[k] ]+"</span>"+chordType[k];
+			if ( bassAnalyse && bassNote < 12 && bassNote != jArray[k] ) { AllYourChord += "<span class='chord_bass'> / "+num2note[ bassNote ]+"</span>"; }
+			if (flag) { AllYourChord += "<span class='chord_doubt'>?</span>"; }
+			AllYourChord += "</span>";
+
+			AllYourChord += "<br />"+"<span class='chord_line'><span class='chord_root'>"+num3note[ jArray[k] ]+"</span>"+chordType[k];
+			if ( bassAnalyse && bassNote < 12 && bassNote != jArray[k] ) { AllYourChord += "<span class='chord_bass'> / "+num3note[ bassNote ]+"</span>"; }
+			if (flag) { AllYourChord += "<span class='chord_doubt'>?</span>"; }
+			AllYourChord += "</span></li>";
+		}
+	}
+
+
+	AllYourChord = "<ul class='chord_list'>"+AllYourChord+"</ul>";
+
+	//AllYourChordとか
+	if (noteNumberFull >= allKeys) {
+		AllYourChord = "<p class='chord_message'><strong><em><big>暇 人 乙</big></em></strong></p>"+AllYourChord;
+		//このブロックは使われていない
+	}else if (noteNumber >= 12) {
+		AllYourChord = "<p class='chord_message'><strong><em>All your analysis are belong to us!</em></p></span>"+AllYourChord;
+	}
+
+
+	//ちょっと整形して出力
+	AllYourChord = AllYourChord.replace(/^(<br \/>)/,'');
+
+	if ( !AllYourChord ) {
+		AllYourChord = "<p class='chord_message'>未登録の和音かな、などとおぼゆ。</p>";
+	}
+
+
+	//リストの伸縮をアニメーション付きで変更
+	animatedChordListUpdater(AllYourChord);
+
+	//コードネームをElasticなかんじにする
+	chordListHoverResponser();
+
+}
+
+//【解析側；解析結果リスト表示】コードネームにマウスオーバーのときのアニメーション jQuery
+//この関数が呼ばれるタイミング = コードラインを新規に生成したとき、ラインのdisabled/enabledが切り替わったときそれぞれ。
+function chordListHoverResponser() {
+	$("li.chord_lines").hover(
+		function(){
+			$(this).stop().animate({ marginLeft: "+=15px"}, 500, "easeOutElastic" );
+		}, function (){
+			$(this).stop().animate({ marginLeft: "0px"}, 800, "easeOutElastic" );
+		}
+	);
+
+	$("li.chord_lines_disabled").hover(
+		function() {
+			$(this).stop();
+		}
+	);
+}
+
+
+//【解析側；解析結果リスト表示】div高さが変わったときのアニメーション jQuery
+function animatedChordListUpdater(AllYourChord) {
+	document.getElementById("analysed_chord").style.display = "none";
+
+	//最終出力と同じ内容のコピーdivを作って高さチェック
+	//コピーを使わず元divを検査すると、なぜか「アニメーション適用後の」値が取得されるためNG
+	document.getElementById("analysed_chord_copied").innerHTML = AllYourChord;
+	pHeight = $('#analysed_chord').height();
+	cHeight = $('#analysed_chord_copied').height();
+
+	//検査したらすぐ捨てる。残ってるとidやclassの重複が発生して非常に困るから。
+	document.getElementById("analysed_chord_copied").innerHTML = "";
+
+	//変更前のheightを適用し
+	document.getElementById("analysed_chord").innerHTML = AllYourChord;
+	$('#analysed_chord').css("height", pHeight+"px");
+
+	//変更後の値に向けアニメーション実行
+	document.getElementById("analysed_chord").style.display = "block";
+	$('#analysed_chord').stop().animate({height: cHeight+"px"}, 800, "easeOutQuint", function(){ } );
+}
+
+
+-->
+</script>
+
+</body></html>
